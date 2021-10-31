@@ -1,0 +1,30 @@
+{
+  "name": "soundvitrine",
+  "version": "1.0.0",
+  "description": "SoundVitrine helps you share your local music library online",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amphaal/SoundVitrine.git"
+  },
+  "keywords": [
+    "itunes",
+    "music"
+  ],
+  "author": "Guillaume VARA (guillaume.vara@gmail.com)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Amphaal/SoundVitrine/issues"
+  },
+  "homepage": "https://github.com/Amphaal/SoundVitrine#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  }
+}
