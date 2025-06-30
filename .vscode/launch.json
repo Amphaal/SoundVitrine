@@ -17,33 +17,18 @@
             "cascadeTerminateToConfigurations": ["Track stack logs"]
         },
         {
-            "name": "Track stack logs",
+            "name": "Launch Docker Compose",
             "type": "node-terminal",
             "request": "launch",
-            "command": "docker compose -f docker-compose.debug.yml logs -f",
-            "postDebugTask": "Shutdown debug stack",
-            "presentation": {
-                "hidden": true,
-                "group": "",
-                "order": 1
-            },
+            "command": "docker compose up -w --build",
+            "cwd": "${workspaceFolder}/.dev",
             "serverReadyAction": {
                 "action": "startDebugging",
                 "pattern": "swoole entered RUNNING state",  
                 "name": "Launch Chrome",
-                "killOnServerStop": false
+                "killOnServerStop": true
             },
             "cascadeTerminateToConfigurations": ["Launch Chrome"]
         }
     ],
-    "compounds": [
-        {
-            "name": "Debug Full stack",
-            "configurations": [
-                "Track stack logs"
-            ],
-            "preLaunchTask": "Run debug stack",
-            "stopAll": true
-        }
-    ]
 }

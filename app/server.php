@@ -1,5 +1,7 @@
 <?php
 
+echo 'Loading SoundVitrine...';
+
 // display errors on http response
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -30,17 +32,16 @@ include SERVICES_SCRIPT_ROOT . '/websocket.php';
 //
 //
 
-use Swoole\WebSocket\Server;
+use Swoole\HTTP\Server;
 $server = new Server("0.0.0.0", SERVICE_WWW_PORT);
 $server->set([
     'enable_coroutine' => true,
+    // 'daemonize' => false,
+    'worker_num' => 1
 ]);
 
 //
 $server->on('WorkerStart', function(Server $serv, $workerId) {
-    // Files which won't be reloaded
-    # var_dump(get_included_files());
-
     // Include files from here so they can be reloaded...
     include SOURCE_PHP_ROOT . '/index.php'; // Include your standard PHP script
 });
@@ -57,24 +58,6 @@ $server->on('WorkerExit', function(Server $server, int $workerId) {
 //
 
 $server->on("request", "wwwService");
-//$wwwPort = $server->listen(HOST_PORT_LISTENING, SERVICE_WWW_PORT, SWOOLE_SOCK_TCP);
-
-//
-// WS
-// 
-
-//
-//$websocketPort = $server->listen(HOST_PORT_LISTENING, SERVICE_WEBSOCKET_PORT, SWOOLE_SOCK_TCP);
-setupWebSocket($server);
-
-// Bind to termination signals
-// Swoole\Process::signal(SIGTERM, function () use ($server, &$connectionsData) {
-//     ws_handleShutdown($server, $connectionsData);
-// });
-
-// Swoole\Process::signal(SIGINT, function () use ($server, &$connectionsData) {
-//     ws_handleShutdown($server, $connectionsData);
-// });
 
 //
 //

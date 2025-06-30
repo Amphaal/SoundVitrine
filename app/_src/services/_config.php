@@ -24,7 +24,7 @@ define("SHOUT_PROFILE_FILE_NAME", 'shout.json');
 /** hostname that gets exposed to the outside world */
 define("EXPOSED_HOST", getenv("SOUNDVITRINE_EXPOSED_HOST") ?? gethostname());
 define("EXPOSED_SCHEME", getenv("SOUNDVITRINE_EXPOSED_SCHEME") ?? 'https');
-define("SERVICE_WWW_PORT", 80);
+define("SERVICE_WWW_PORT", getenv("PORT") ?? 9501);
 
 /** where, on the current web server, is exposed the root of the app */
 /** MUST END WITH A '/' !!! */

@@ -9,5 +9,6 @@
     "intelephense.environment.includePaths": [
         "./vendor/swoole/ide-helper/src",
         "./vendor"
-    ]
+    ],
+    "terminal.integrated.cwd": "${workspaceFolder}/app"
 }

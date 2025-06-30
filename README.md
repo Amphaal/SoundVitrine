@@ -5,10 +5,10 @@
 
 SoundVitrine is an hosted iTunes Library portal for the web. Used alongside SoundBuddy, you can broadcast to visitors what you are listening to, and what music you currently have on your computer !
 
-# Debug
-Make sure you have Docker Desktop installed.
-
-## Particularities
+### Windows
+Make sure you have installed:
+- Docker Desktop
+- Chocolatey
 
 ### MacOS
 On MacOS, you might want to disable Apache first;
