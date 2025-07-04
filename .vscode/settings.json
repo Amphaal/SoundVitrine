@@ -5,9 +5,8 @@
         "app/public/ext/js/**": true
     },
     "php.suggest.basic": false,
-    "intelephense.environment.phpVersion": "8.2.0",
+    "intelephense.environment.phpVersion": "8.3.0",
     "intelephense.environment.includePaths": [
-        "./vendor/swoole/ide-helper/src",
         "./vendor"
     ],
     "terminal.integrated.cwd": "${workspaceFolder}/app"

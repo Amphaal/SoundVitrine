@@ -1,5 +1,28 @@
 <?php
 
+// display errors on http response
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+//
+define("SOURCE_PHP_ROOT", __DIR__ . '/_src');
+define("PUBLIC_FILES_ROOT", __DIR__ . '/assets');
+define("STATE_FILES_ROOT", __DIR__ . '/_state');
+define("SERVICES_SCRIPT_ROOT", SOURCE_PHP_ROOT . '/services');
+
+//
+set_include_path(SOURCE_PHP_ROOT);
+
+//
+include SERVICES_SCRIPT_ROOT . '/_config.php'; 
+include SERVICES_SCRIPT_ROOT . '/www.php'; 
+include SERVICES_SCRIPT_ROOT . '/websocket.php';
+
+//
+//
+//
+
 include SOURCE_PHP_ROOT . "/lib/i18n.php";
 include SOURCE_PHP_ROOT . "/lib/users-management/users_management.php";
 include SOURCE_PHP_ROOT . "/lib/web_user-agent.php";
@@ -18,6 +41,7 @@ include SOURCE_PHP_ROOT . "/controllers/manage.php";
 include SOURCE_PHP_ROOT . "/controllers/downloadApp.php";
 include SOURCE_PHP_ROOT . "/controllers/musicLibrary.php";
 
+//
 function init_app() {
     // 
     checkUserSpecificFolders(); // generate folders if non existing
@@ -31,7 +55,7 @@ function init_app() {
 
     //        
     switch($qs_domain) {
-        // should be handled by nginx proxy, then forwarded to WS Swoole instance
+        // should be handled by nginx proxy, then forwarded to WS instance
         // case WEBSOCKET_QUERY_STUB: {}
 
         case URI_RESOURCES_QUERY_ROOT: {

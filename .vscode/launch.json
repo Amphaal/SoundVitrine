@@ -5,19 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Chrome",
+            "name": "Launch App",
             "type": "chrome",
             "request": "launch",
             "url": "http://127.0.0.1",
             "presentation": {
-                "hidden": true,
-                "group": "",
-                "order": 2
+                "group": "2. Launch",
+                "order": 1
             },
-            "cascadeTerminateToConfigurations": ["Track stack logs"]
         },
         {
-            "name": "Launch Docker Compose",
+            "name": "Launch Dashboard",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://127.0.0.1:2019",
+            "presentation": {
+                "group": "2. Launch",
+                "order": 2
+            },
+        },
+        //
+        {
+            "name": "Docker Compose",
             "type": "node-terminal",
             "request": "launch",
             "command": "docker compose up -w --build",
@@ -25,10 +34,15 @@
             "serverReadyAction": {
                 "action": "startDebugging",
                 "pattern": "swoole entered RUNNING state",  
-                "name": "Launch Chrome",
+                "name": "Launch App",
                 "killOnServerStop": true
             },
-            "cascadeTerminateToConfigurations": ["Launch Chrome"]
+            "presentation": {
+                "hidden": false,
+                "group": "1. Compose",
+                "order": 1
+            },
+            "cascadeTerminateToConfigurations": ["Launch App", "Launch Dashboard"]
         }
     ],
 }

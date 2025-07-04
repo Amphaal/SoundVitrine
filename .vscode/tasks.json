@@ -8,7 +8,12 @@
       "label": "0. Install Dev Prerequisites (requires admin privileges)",
       "windows": {
         // make sure to install Chocolatey beforehand (https://docs.chocolatey.org/en-us/choco/setup/)
-        "command": "choco install -y php composer",
+        "command": "choco",
+        "args": ["install", "-y", "php", "composer"]
+      },
+      "osx": {
+        "command": "brew",
+        "args": ["install", "php", "composer"]
       },
       "problemMatcher": []
     },

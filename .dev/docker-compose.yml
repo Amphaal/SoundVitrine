@@ -1,32 +1,37 @@
 name: SoundVitrine
 
 services:
-  # [Swoole HTTP + WebSocket]
-  swoole-app:
-    restart: on-failure:1
+  app:
+    # restart: on-failure:1
     image: Amphaal/soundvitrine # gives a name to the generated image
-    build: ../app
+    build: 
+      context: ../app
+      target: runtime-xdebug
     environment:
-      # debug env specific
-      AUTORELOAD_PROGRAMS: "swoole"
-      AUTORELOAD_ANY_FILES: 1
       #
       SOUNDVITRINE_EXPOSED_HOST: localhost
       SOUNDVITRINE_EXPOSED_SCHEME: http
       #
       PORT: 80
     ports:
-      - "80:80"
+      - "80:80"       # HTTP
+      - "9003:9003"   # Xdebug
+      # - "2019:2019"   # Caddy Admin panel
     volumes:
-      - ../_state:/var/www/_state:rw
+      - ../_state:/var/www/public/_state:rw
     develop:
-      watch:
-        - action: sync+restart
-          path: ../app/server.php
-          target: /var/www/server.php
-        - action: sync
-          path: ../app/_src
-          target: ../app/_src
-        - action: sync
-          path: ../app/public
-          target: ../app/public
+      # watch:
+        # - action: sync+restart
+        #   path: ../app/Caddyfile
+        #   target: /etc/frankenphp/Caddyfile
+        #
+        #
+        # - action: sync
+        #   path: ../app/files/index.php
+        #   target: /var/www/public/index.php
+        # - action: sync
+        #   path: ../app/files/_src
+        #   target: /var/www/public/_src
+        # - action: sync
+        #   path: ../app/files/assets
+        #   target: /var/www/public/assets

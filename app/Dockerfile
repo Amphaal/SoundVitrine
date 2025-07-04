@@ -1,18 +1,23 @@
-FROM phpswoole/swoole:php8.3-alpine
+# https://frankenphp.dev/docs/docker/
+# note: prefer non-alpine for compatibility and performance (https://frankenphp.dev/fr/docs/performance/)
+FROM dunglas/frankenphp:1-php8.3 AS base
+RUN install-php-extensions \
+	intl
 
-# install requirements
-# note: we must do it in one single layer to allow optimization of build size
-RUN apk add icu-dev \
-    && docker-php-ext-configure intl \ 
-    && docker-php-ext-install intl \
-    && docker-php-ext-enable intl
+#
+FROM base AS base-xdebug
+RUN install-php-extensions \
+	xdebug
 
-# copy files
-COPY . /var/www
+#
+#
+#
 
-# Expose the port used by your Swoole server
-ENV PORT=9501
-EXPOSE 9501
+FROM base-xdebug AS runtime-xdebug
+# COPY ./files /app/public
+# COPY Caddyfile /etc/frankenphp/Caddyfile
 
-# Run the server
-CMD ["php", "/var/www/server.php"]
+# must be last, as default stage to be built if not selecting a specific target
+FROM base
+COPY ./files /app/public
+# COPY Caddyfile /etc/frankenphp/Caddyfile
