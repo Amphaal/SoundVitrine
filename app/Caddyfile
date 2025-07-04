@@ -28,21 +28,40 @@
 	root public/
 	encode zstd br gzip
 
-	# Uncomment the following lines to enable Mercure and Vulcain modules
-	mercure {
-		# Transport to use (default to Bolt)
-		transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
-		# Publisher JWT key
-		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
-		# Subscriber JWT key
-		subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
-		# Allow anonymous subscribers (double-check that it's what you want)
-		anonymous
-		# Enable the subscription API (double-check that it's what you want)
-		# subscriptions
-		# Extra directives
-		{$MERCURE_EXTRA_DIRECTIVES}
+	# Deny access to directories
+	@forbiddenDirs path_regexp ^/(controllers|layout|lib|translations)(/.*)?$
+
+	# Deny access to specific files
+	@forbiddenFiles path_regexp ^/config\.php$
+
+	respond @forbiddenDirs 404
+	respond @forbiddenFiles 404
+
+	# Set caching headers for static assets
+	@staticAssets {
+		path *.gif *.ico *.jpg *.png *.svg *.js *.css *.htm *.html *.mp3 *.mp4 *.wav *.ogg *.avi *.ttf *.eot *.woff *.woff2
 	}
+
+	header @staticAssets {
+		Cache-Control "public, max-age=3600"
+		Pragma "public"
+	}
+
+	# Uncomment the following lines to enable Mercure and Vulcain modules
+	# mercure {
+	# 	# Transport to use (default to Bolt)
+	# 	transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
+	# 	# Publisher JWT key
+	# 	publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
+	# 	# Subscriber JWT key
+	# 	subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
+	# 	# Allow anonymous subscribers (double-check that it's what you want)
+	# 	anonymous
+	# 	# Enable the subscription API (double-check that it's what you want)
+	# 	# subscriptions
+	# 	# Extra directives
+	# 	{$MERCURE_EXTRA_DIRECTIVES}
+	# }
 	#vulcain
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}

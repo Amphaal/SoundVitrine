@@ -2,36 +2,22 @@ name: SoundVitrine
 
 services:
   app:
-    # restart: on-failure:1
-    image: Amphaal/soundvitrine # gives a name to the generated image
+    restart: on-failure:1
+    image: Amphaal/soundvitrine
     build: 
       context: ../app
       target: runtime-xdebug
-    environment:
-      #
-      SOUNDVITRINE_EXPOSED_HOST: localhost
-      SOUNDVITRINE_EXPOSED_SCHEME: http
-      #
-      PORT: 80
     ports:
-      - "80:80"       # HTTP
-      - "9003:9003"   # Xdebug
-      # - "2019:2019"   # Caddy Admin panel
+      - "80:80" # HTTP
     volumes:
-      - ../_state:/var/www/public/_state:rw
+     - ../_state:/app/_state:rw
     develop:
-      # watch:
-        # - action: sync+restart
-        #   path: ../app/Caddyfile
-        #   target: /etc/frankenphp/Caddyfile
-        #
-        #
-        # - action: sync
-        #   path: ../app/files/index.php
-        #   target: /var/www/public/index.php
-        # - action: sync
-        #   path: ../app/files/_src
-        #   target: /var/www/public/_src
-        # - action: sync
-        #   path: ../app/files/assets
-        #   target: /var/www/public/assets
+      watch:
+        - action: sync+restart
+          path: ../app/Caddyfile
+          target: /etc/frankenphp/Caddyfile
+        - action: sync
+          path: ../app/files
+          target: /app/public
+    extra_hosts:
+      - host.docker.internal:host-gateway

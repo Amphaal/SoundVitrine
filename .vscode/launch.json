@@ -8,33 +8,39 @@
             "name": "Launch App",
             "type": "chrome",
             "request": "launch",
-            "url": "http://127.0.0.1",
+            "url": "http://localhost",
             "presentation": {
                 "group": "2. Launch",
                 "order": 1
             },
         },
+        //
+        //
+        //
         {
-            "name": "Launch Dashboard",
-            "type": "chrome",
+            "name": "XDebug",
+            "type": "php",
             "request": "launch",
-            "url": "http://127.0.0.1:2019",
+            "port": 9003,
+            "pathMappings": {
+                "/app/public": "${workspaceFolder}/app/files"
+            },
             "presentation": {
-                "group": "2. Launch",
+                "hidden": false,
+                "group": "1. Compose",
                 "order": 2
             },
         },
-        //
         {
             "name": "Docker Compose",
             "type": "node-terminal",
             "request": "launch",
-            "command": "docker compose up -w --build",
+            "command": "docker compose up --watch --build",
             "cwd": "${workspaceFolder}/.dev",
             "serverReadyAction": {
                 "action": "startDebugging",
-                "pattern": "swoole entered RUNNING state",  
-                "name": "Launch App",
+                "pattern": "server running",  
+                "name": "XDebug",
                 "killOnServerStop": true
             },
             "presentation": {
@@ -42,7 +48,10 @@
                 "group": "1. Compose",
                 "order": 1
             },
-            "cascadeTerminateToConfigurations": ["Launch App", "Launch Dashboard"]
-        }
+            "cascadeTerminateToConfigurations": [
+                "XDebug",
+                "Launch App"
+            ]
+        },
     ],
 }

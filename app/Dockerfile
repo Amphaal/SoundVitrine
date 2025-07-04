@@ -8,16 +8,23 @@ RUN install-php-extensions \
 FROM base AS base-xdebug
 RUN install-php-extensions \
 	xdebug
+RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+	&& echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 #
 #
 #
 
 FROM base-xdebug AS runtime-xdebug
-# COPY ./files /app/public
-# COPY Caddyfile /etc/frankenphp/Caddyfile
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+COPY ./files /app/public
+COPY ./Caddyfile /etc/frankenphp/Caddyfile
 
 # must be last, as default stage to be built if not selecting a specific target
 FROM base
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
 COPY ./files /app/public
-# COPY Caddyfile /etc/frankenphp/Caddyfile
+COPY ./Caddyfile /etc/frankenphp/Caddyfile

@@ -1,47 +1,34 @@
 <?php
 
 // display errors on http response
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-//
-define("SOURCE_PHP_ROOT", __DIR__ . '/_src');
-define("PUBLIC_FILES_ROOT", __DIR__ . '/assets');
-define("STATE_FILES_ROOT", __DIR__ . '/_state');
-define("SERVICES_SCRIPT_ROOT", SOURCE_PHP_ROOT . '/services');
+include $_SERVER["DOCUMENT_ROOT"] . "/config.php";
 
-//
-set_include_path(SOURCE_PHP_ROOT);
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/i18n.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/users-management/users_management.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/web_title.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/web_user-agent.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/css_compiler.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/string_extensions.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/error_handling.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/templating.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/templating.shards.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/file_uploading.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/http.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/lib/magnifik_input.php";
 
-//
-include SERVICES_SCRIPT_ROOT . '/_config.php'; 
-include SERVICES_SCRIPT_ROOT . '/www.php'; 
-include SERVICES_SCRIPT_ROOT . '/websocket.php';
+include $_SERVER["DOCUMENT_ROOT"] . "/controllers/uploadMusicLibrary.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/controllers/uploadShout.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/controllers/manage.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/controllers/downloadApp.php";
+include $_SERVER["DOCUMENT_ROOT"] . "/controllers/musicLibrary.php";
 
-//
-//
-//
+// handles users sessions, start
+session_start();
 
-include SOURCE_PHP_ROOT . "/lib/i18n.php";
-include SOURCE_PHP_ROOT . "/lib/users-management/users_management.php";
-include SOURCE_PHP_ROOT . "/lib/web_user-agent.php";
-include SOURCE_PHP_ROOT . "/lib/css_compiler.php";
-include SOURCE_PHP_ROOT . "/lib/string_extensions.php";
-include SOURCE_PHP_ROOT . "/lib/error_handling.php";
-include SOURCE_PHP_ROOT . "/lib/templating.php";
-include SOURCE_PHP_ROOT . "/lib/templating.shards.php";
-include SOURCE_PHP_ROOT . "/lib/file_uploading.php";
-include SOURCE_PHP_ROOT . "/lib/http.php";
-include SOURCE_PHP_ROOT . "/lib/magnifik_input.php";
-
-include SOURCE_PHP_ROOT . "/controllers/uploadMusicLibrary.php";
-include SOURCE_PHP_ROOT . "/controllers/uploadShout.php";
-include SOURCE_PHP_ROOT . "/controllers/manage.php";
-include SOURCE_PHP_ROOT . "/controllers/downloadApp.php";
-include SOURCE_PHP_ROOT . "/controllers/musicLibrary.php";
-
-//
 function init_app() {
     // 
     checkUserSpecificFolders(); // generate folders if non existing
@@ -52,46 +39,14 @@ function init_app() {
 
     // 1st part of URL
     $qs_domain = array_shift($qs);
-
-    //        
+    
+    //
     switch($qs_domain) {
-        // should be handled by nginx proxy, then forwarded to WS instance
-        // case WEBSOCKET_QUERY_STUB: {}
+        // should be handled by proxy (database files)
+        // case 'data' : {}
 
-        case URI_RESOURCES_QUERY_ROOT: {
-            $qs_action = array_shift($qs); // 2nd part of URL
-            switch ($qs_action) {
-                // should be handled by proxy (database files)
-                // case URI_RESOURCES_QUERY_REPO_CHUNK : {}
-
-                case PUBLIC_PHP_FOLDER_NAME: {
-                    //
-                    $wantedPublicPhpResource = PUBLIC_PHP_FOLDER_NAME . "/" . implode("/", $qs);
-
-                    //
-                    if (file_exists(SOURCE_PHP_ROOT . '/' . $wantedPublicPhpResource)) {
-                        //
-                        $ctMap = [
-                            '.css.' => 'text/css',
-                            '.js.' => 'text/javascript'
-                        ];
-                    
-                        //
-                        foreach ($ctMap as $ext => $contentType) {
-                            if (!str_contains($wantedPublicPhpResource, $ext)) continue;
-                            ContextManager::get("header")('Content-Type: ' . $contentType);
-                            break;
-                        }
-
-                        //
-                        include $wantedPublicPhpResource;
-                        return;
-                    }
-                }
-                break;
-            }
-        }
-        break;
+        // should be handled by proxy (WebServices)
+        // case 'sentry': {}
 
         case 'manage': {
             $qs_action = array_shift($qs); // 2nd part of URL
@@ -105,48 +60,13 @@ function init_app() {
         }
         break;
 
-        case 'info': {
-            if (EXPOSED_HOST == "localhost") {
-                ContextManager::get("header")('Content-Type: application/json');
-                var_dump(get_defined_constants());
-                return;
-            }
-        }
-
-        case 'changeLang': {
-            // only POST allowed
-            $request = ContextManager::get("REQUEST");
-            if (!isset($request->post)) {
-                ContextManager::get("http_response_code")(405);
-                return;
-            }
-            
-            //
-            $lang = $request->post['set_lang'];
-            $redirectTo = $request->post['redirectTo'];
-            if (!(isset($lang) && isset($redirectTo))) {
-                ContextManager::get("http_response_code")(500);
-                echo "missing either lang or redirectTo in payload";
-                return;
-            }
-
-            //
-            Session::setLang($lang);
-
-            //
-            ContextManager::get("http_response_code")(303); # https://fr.wikipedia.org/wiki/Post-redirect-get
-            ContextManager::get("header")('Location: ' . $redirectTo);
-            return;
-        }
-        break;
-
         case 'u': {
             // 2cnd part of URL
             $qs_user =  array_shift($qs);
             if (!empty($qs_user)) $qs_user = strtolower($qs_user); // always lower
 
             // 
-            checkUserExists($qs_user, false); 
+            checkUserExists($qs_user); 
 
             // 3rd part of URL
             $qs_action = array_shift($qs);
@@ -170,8 +90,6 @@ function init_app() {
                         // else, show music library
                         routerInterceptor_MusicLibrary($qs_user);
                     }
-
-                    return;
                 }
             }
         }
@@ -181,12 +99,18 @@ function init_app() {
         case NULL: {
             // get users so we can display them
             $users = UserDb::all();
-            ContextManager::get("set_title")(i18n("welcome"));
+            setTitle(i18n("welcome"));
             injectAndDisplayIntoAdminLayout("layout/admin/components/welcome.php", get_defined_vars());
-            return;
         }
+
+        default: {
+            /** */
+        }
+        break;
     }
 
     // will default to 404 not found
-    ContextManager::get("http_response_code")(404);
+    http_response_code(404);
 }
+
+init_app();
