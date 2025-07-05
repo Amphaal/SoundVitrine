@@ -28,7 +28,7 @@ function generateFreshUploads()
     let target = document.querySelector('#feedContainer .feedWrapper');
 
     //for each interval
-    Object.keys(data).foreach(
+    Object.keys(data).forEach(
         function (interval) {
         
             //prepare
@@ -42,7 +42,7 @@ function generateFreshUploads()
             //head
             let tHead = document.createElement('thead');
             let headerRow = document.createElement('tr');
-            columns.foreach(
+            columns.forEach(
                 function (head) {
                     let thElem = document.createElement('th');
                     thElem.innerHTML = i18n[head.toLowerCase()] || head;
@@ -54,12 +54,12 @@ function generateFreshUploads()
 
             // body / albums
             let tBody = document.createElement('tbody');
-            data[interval].foreach(
+            data[interval].forEach(
                 function (album) {
 
                     let albumElem = document.createElement('tr');
             
-                    columns.foreach(
+                    columns.forEach(
                         function (columnName) {
                             let cellVal = album[columnName];
                             let cellElem = document.createElement('td');

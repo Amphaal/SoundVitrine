@@ -109,7 +109,7 @@ function applyNewFilters(newFilters)
 //prepare sub elements of the filterUIs
 function prepareFilterUIs(IDs)
 {
-    IDs.foreach(
+    IDs.forEach(
         function (id) {
             let target = document.getElementById(id);
             target.classList.add("filterUI");
@@ -134,12 +134,12 @@ function prepareFilterUIs(IDs)
 //helper func
 function updateFilterUIs(arrayOfIDs)
 {
-    arrayOfIDs.foreach(
+    arrayOfIDs.forEach(
         function (id) {
             generateFilterUI(id, _appDataFeeds[id]);
         }
     );
-    Object.keys(_discoverFilter).foreach(
+    Object.keys(_discoverFilter).forEach(
         function (id) {
             alterFilterUI(id, _discoverFilter[id]);
         }
@@ -176,7 +176,7 @@ function generateFilterUI(id, dataFunc)
                 return item;
             }
         )
-        .foreach(
+        .forEach(
             function (item) {
                 target.appendChild(item); }
         );
@@ -206,7 +206,7 @@ function alterFilterUI(id, filterCriteria)
     let ph = document.querySelector('#' + id + ' .ph');
 
     //ui filter greying not selected
-    list.foreach(
+    list.forEach(
         function (curr) {
             let nodefilter = curr.dataset.nFilter;
             nodefilter == filterCriteria ? curr.classList.add("selected") : curr.classList.remove("selected");
@@ -304,7 +304,7 @@ function applySort(event)
     if (!thisLbl.classList.contains("active")) {
         
         //remove active from others
-        [thisLbl.nextElementSibling, thisLbl.previousElementSibling].foreach(
+        [thisLbl.nextElementSibling, thisLbl.previousElementSibling].forEach(
             function (elem) {
                 if (!elem) { return;
                 }
@@ -332,7 +332,7 @@ function updateSortingData(dataset)
 {
     _discoverSorter = dataset.category + ":" + dataset.direction;
     localStorage.setItem(defFiltStorageKey, _discoverSorter);
-    Object.keys(_discoverMixers).foreach(
+    Object.keys(_discoverMixers).forEach(
         function (key) {
             _discoverMixers[key].sort(_discoverSorter);
         }
@@ -391,7 +391,7 @@ function generateSortButtons()
     let sorterElem = document.getElementsByClassName("sorter")[0];
     Object.keys(_defaultSorters)
           .map(btnGenerator)
-        .foreach(
+        .forEach(
             function (item) {
                 sorterElem.appendChild(item); }
         );
@@ -417,7 +417,7 @@ function displayAlbumInfos(dataFunc)
             let aTitle = document.getElementById('aTitle');
 
             //purge
-            [aYear, aGenre, aDateAdded, aTracks].foreach(
+            [aYear, aGenre, aDateAdded, aTracks].forEach(
                 function (e) {
                     e.innerHTML = '';
                     e.removeAttribute('title');
@@ -459,7 +459,7 @@ function displayAlbumInfos(dataFunc)
                 aDateAdded.innerHTML = compareDateFromNomHumanized(data['DateAdded']);
                 aDateAdded.setAttribute('title', data['DateAdded']);
             
-                Object.keys(data['Tracks']).foreach(
+                Object.keys(data['Tracks']).forEach(
                     function (trackId) {
                         aTracks.innerHTML += '<li>' + data['Tracks'][trackId] + '</li>';
                     }

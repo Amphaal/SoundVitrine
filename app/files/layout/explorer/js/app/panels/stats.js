@@ -79,7 +79,7 @@ function _reflowCharts(source)
     return new Promise(
         function (resolve) {
         
-            Object.keys(_hcObjects).foreach(
+            Object.keys(_hcObjects).forEach(
                 function (elemId) {
                     _hcObjects[elemId].reflow(); 
                 }

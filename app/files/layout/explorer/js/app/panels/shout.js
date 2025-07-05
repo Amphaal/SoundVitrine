@@ -251,7 +251,7 @@ function compareShoutChanges(newShout) {
     b = Object.keys(newShout);
     c = new Set(a.concat(b));
     d = [];
-    c.foreach (function(v){d.push(v);});
+    c.forEach (function(v){d.push(v);});
     return d.filter(function(id){
         return newShout[id] !== _currentShout[id];
     });

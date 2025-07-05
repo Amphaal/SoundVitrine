@@ -8,7 +8,7 @@ class BBEditor {
         this._simblings = getSiblings(this._editor);
         this._picker = this._editor.getElementsByClassName("colorPicker")[0];
         this._pickers = this._picker.querySelectorAll(".colors > *");
-        this._pickers.foreach(this._addChangeHandler.bind(this));
+        this._pickers.forEach(this._addChangeHandler.bind(this));
         this._background = this._editor.getElementsByClassName("wAnim")[0];
 
         this._bbStyle = document.createElement("style");
@@ -53,7 +53,7 @@ class BBEditor {
 
     _setColorsToPickers(colors) {
         let norder = colors.slice().reverse();
-        this._pickers.foreach(
+        this._pickers.forEach(
             function (e, i) {
                 e.setAttribute("value", norder[i]);
                 e.value = norder[i];

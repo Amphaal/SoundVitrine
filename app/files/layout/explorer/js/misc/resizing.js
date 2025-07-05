@@ -13,7 +13,7 @@ function bindResizeFunctions() {
     //
     resizeFunctions.any.headerToggle = () => () => headerToggle;
 
-    Object.keys(_discoverFilter).foreach((id) => {
+    Object.keys(_discoverFilter).forEach((id) => {
         const key = "applyManualSizesFilterUIs[" + id + "]";
         resizeFunctions.any[key] = () => () => applyManualSizesFilterUIs(id);
     });
@@ -60,14 +60,14 @@ function resizeManualHeightsAndWidths() {
     const date = new Date();
 
     //height or width...
-    Object.values(resizeFunctions.any).foreach(
+    Object.values(resizeFunctions.any).forEach(
         execFunc(date, "any")
     );
 
     //height...
     if (newHeight != sourceHeight) {
         sourceHeight = newHeight;
-        Object.values(resizeFunctions.height).foreach(
+        Object.values(resizeFunctions.height).forEach(
             execFunc(date, "height")
         );
     }
@@ -75,7 +75,7 @@ function resizeManualHeightsAndWidths() {
     //width...
     if (newWidth != sourceWidth) {
         sourceWidth = newWidth;
-        Object.values(resizeFunctions.width).foreach(
+        Object.values(resizeFunctions.width).forEach(
             execFunc(date, "width")
         );
     }

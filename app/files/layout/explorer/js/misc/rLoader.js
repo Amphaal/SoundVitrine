@@ -131,7 +131,7 @@ class RLoader {
 
         //buttons
         let aBtns = this._getButtons();
-        if (aBtns.length) aBtns.foreach(function (e) {
+        if (aBtns.length) aBtns.forEach(function (e) {
             let url = e.getAttribute("href");
             e.onclick = function (event) {
                 event.preventDefault();

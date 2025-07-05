@@ -123,7 +123,7 @@ function renderSearchResults(criteria, data)
 
                 //get first genre of artist
                 let firstGenre = [];
-                data[current]["Genres"].foreach(
+                data[current]["Genres"].forEach(
                     function (val) {
                         firstGenre.push(val);}
                 );
@@ -152,7 +152,7 @@ function renderSearchResults(criteria, data)
                         }
                     );
                     spanElems[1].classList.add('f');
-                    spanElems.foreach(
+                    spanElems.forEach(
                         function (e) {
                             resultDiv.appendChild(e);
                         }
@@ -167,7 +167,7 @@ function renderSearchResults(criteria, data)
                 //add genres
                 var genresElem = document.createElement('span');
                 genresElem.innerHTML += "&nbsp;&nbsp;&nbsp;(";
-                data[current]["Genres"].foreach(
+                data[current]["Genres"].forEach(
                     function (val) {
                         genresElem.innerHTML += val + ", ";
                     }
@@ -182,7 +182,7 @@ function renderSearchResults(criteria, data)
                 return total;
             }, []
         )
-        .foreach(
+        .forEach(
             function (item) {
                 target.appendChild(item); }
         );

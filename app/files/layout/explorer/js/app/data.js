@@ -37,7 +37,7 @@ function getArtistUIDataFeed(lib)
         
         //artists array
         let arrAog = [];
-        artistsOfGenre.foreach(
+        artistsOfGenre.forEach(
             function (val) {
                 arrAog.push(val);}
         );

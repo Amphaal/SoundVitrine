@@ -1,6 +1,6 @@
 function removeNotification(selector)
 {
-    document.querySelectorAll(selector).foreach(
+    document.querySelectorAll(selector).forEach(
         function (elem) {
             waitAnimationEnd(
                 elem, function () {
@@ -20,7 +20,7 @@ function alignConnectSideElements()
 {
     let topMost = [];
 
-    document.querySelectorAll("#app-music-library .connect-side").foreach(
+    document.querySelectorAll("#app-music-library .connect-side").forEach(
         function (e) {
             topMost.push(e.getBoundingClientRect().top);
         }

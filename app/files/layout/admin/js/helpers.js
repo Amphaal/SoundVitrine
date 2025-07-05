@@ -172,7 +172,7 @@ function ezPOST(data) {
             iElem.setAttribute("value", data[key]);
             return iElem;
         }
-    ).foreach(
+    ).forEach(
         function (item) {
             form.appendChild(item);
         }
