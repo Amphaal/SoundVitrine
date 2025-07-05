@@ -3,41 +3,45 @@
 function preventSET(inBetweenPromise) {
     //temporary disabling event listening
     document.removeEventListener("scroll", _onScroll);
-    return inBetweenPromise.then(function(elem) {
-        document.addEventListener("scroll", _onScroll);
-        return elem;
-    });
+    return inBetweenPromise.then(
+        function (elem) {
+            document.addEventListener("scroll", _onScroll);
+            return elem;
+        }
+    );
 }
 
-var checkScrollSpeed = (function(settings){
+var checkScrollSpeed = (function (settings) {
     settings = settings || {};
 
-    var lastPos, newPos, timer, delta, 
+    var lastPos, newPos, timer, delta,
         delay = settings.delay || 100; // in "ms" (higher means lower fidelity )
 
     function clear() {
-      lastPos = null;
-      delta = 0;
+        lastPos = null;
+        delta = 0;
     }
 
     clear();
 
-    return function(){
-      newPos = window.scrollY;
-      if ( lastPos != null ){ // && newPos < maxScroll 
-        delta = newPos -  lastPos;
-      }
-      lastPos = newPos;
-      clearTimeout(timer);
-      timer = setTimeout(clear, delay);
-      return delta;
+    return function () {
+        newPos = window.scrollY;
+        if (lastPos != null) { // && newPos < maxScroll 
+            delta = newPos - lastPos;
+        }
+        lastPos = newPos;
+        clearTimeout(timer);
+        timer = setTimeout(clear, delay);
+        return delta;
     };
 })();
 
 
 function _onScroll() {
     let ss = checkScrollSpeed();
-    if(Math.abs(ss) < 10) return;
+    if (Math.abs(ss) < 10) {
+        return;
+    }
     headerToggle();
 }
 
@@ -51,14 +55,13 @@ function _onScroll() {
 // false = going up
 var sueh_last_scroll_pos = 0;
 function findScrollingDirection() {
-        let currentDirection = null;
-        let newPos = window.scrollY;
-        if(newPos != sueh_last_scroll_pos) 
-        {
-            currentDirection = newPos > sueh_last_scroll_pos;
-            sueh_last_scroll_pos = newPos;
-        }
-        return currentDirection ? "down" : "up";
+    let currentDirection = null;
+    let newPos = window.scrollY;
+    if (newPos != sueh_last_scroll_pos) {
+        currentDirection = newPos > sueh_last_scroll_pos;
+        sueh_last_scroll_pos = newPos;
+    }
+    return currentDirection ? "down" : "up";
 }
 
 var sueh_ticking = false;
@@ -66,26 +69,30 @@ function headerToggle() {
     //if no animation on run...
     let updateCl = mustHeaderUpdateAnimation(findScrollingDirection());
     if (!sueh_ticking && updateCl !== false) {
-        
+
         //lock
         sueh_ticking = true;
 
         //cpu optimisation for execution
-        window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(
+            function () {
 
-            //animate
-            updateHeaderClasses(updateCl);
+                //animate
+                updateHeaderClasses(updateCl);
 
-            //release
-            sueh_ticking = false;
-        });
+                //release
+                sueh_ticking = false;
+            }
+        );
     }
 }
 
 
 //find if Header should be animated
 function mustHeaderUpdateAnimation(directionToCompute) {
-    if (directionToCompute == null) return false;
+    if (directionToCompute == null) {
+        return false;
+    }
 
     //prepare
     let header = document.getElementsByTagName("header")[0];
@@ -96,14 +103,14 @@ function mustHeaderUpdateAnimation(directionToCompute) {
     let mustHide = "";
 
     //if user is searching
-    let isSRUsed = document.querySelectorAll("header .searchResults.show").length; 
-    
+    let isSRUsed = document.querySelectorAll("header .searchResults.show").length;
+
     //rules...
     if (isSRUsed || directionToCompute == "up") {
         mustSticky = "sticky";
     } else if (directionToCompute == "down" && ooR) {
         mustHide = "toHide";
-        if(isSticky) {
+        if (isSticky) {
             mustSticky = "sticky";
         }
     }
@@ -125,11 +132,13 @@ function isHeaderOutOfReach() {
 }
 
 function registerXNavigateSwipeEvents() {
-    var hammertime = new Hammer(document.body,  { inputClass: Hammer.TouchInput });
+    var hammertime = new Hammer(document.body, { inputClass: Hammer.TouchInput });
 
-    hammertime.on('swipeleft swiperight', function(ev) {
-        hNavigate(ev.direction);
-    });
+    hammertime.on(
+        'swipeleft swiperight', function (ev) {
+            hNavigate(ev.direction);
+        }
+    );
 
     document.addEventListener("scroll", _onScroll);
 }

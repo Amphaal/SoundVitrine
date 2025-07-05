@@ -12,11 +12,11 @@ Or maybe are-you a music enthusiast :
 - You are a Metadata nazi, probably using MusicBrainz Picard to keep things in order.
 - You like to share your beautiful music tastes to people you meet.
 
-BINGO, <?= constant("APP_NAME") ?> is for you. 
+BINGO, <?php echo constant("APP_NAME") ?> is for you. 
 
 Get started by creating an account, or simply navigate through our users accounts to discover new exciting music.
 Use the companion app to upload your library and stream in real time what you are playing on iTunes ! Cool, isn't it ? 
 
-If you would like to thank me for the awesome work, have a question, or anything really, don't hesitate to contact me at haveakitkat@hotmail.fr.
+If you would like to thank me for the awesome work, have a question, or anything really, don't hesitate to contact me at <?php echo constant("CREATOR_EMAIL") ?>.
 Oh, and you might also find bugs here and there by the way, it's still in beta.
 

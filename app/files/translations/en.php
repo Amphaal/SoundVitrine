@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return array(
     'uploadWithCompanionApp' => 'Upload via companion app',

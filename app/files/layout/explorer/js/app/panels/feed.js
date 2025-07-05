@@ -1,4 +1,5 @@
-function toggleFeed() {
+function toggleFeed()
+{
     return preventSET(
         _toggleShutter('feedContainer', resizeFeed)
         .then(vNavigate)
@@ -13,74 +14,85 @@ function toggleFeed() {
  * 
  * @returns 
  */
-function resizeFeed() {
+function resizeFeed()
+{
     return _resizeShutter(
         'feedContainer', 
         document.getElementById("showFeed").checked
     );
 }
 
-function generateFreshUploads() {
+function generateFreshUploads()
+{
     let data = _appDataFeeds.feedUploads()
     let target = document.querySelector('#feedContainer .feedWrapper');
 
     //for each interval
-    Object.keys(data).forEach(function(interval) {
+    Object.keys(data).foreach(
+        function (interval) {
         
-        //prepare
-        let section = document.createElement('section');
-        let table = document.createElement('table');
-        table.classList.add('sortable');
-        let title = document.createElement('h1');
-        title.innerHTML = interval;
-        let columns = ['Year', 'Genre', 'Artist', 'Album'];
+            //prepare
+            let section = document.createElement('section');
+            let table = document.createElement('table');
+            table.classList.add('sortable');
+            let title = document.createElement('h1');
+            title.innerHTML = interval;
+            let columns = ['Year', 'Genre', 'Artist', 'Album'];
 
-        //head
-        let tHead = document.createElement('thead');
-        let headerRow = document.createElement('tr');
-        columns.forEach(function(head) {
-            let thElem = document.createElement('th');
-            thElem.innerHTML = i18n[head.toLowerCase()] || head;
-            headerRow.appendChild(thElem);
-        });
-        tHead.appendChild(headerRow);
-        table.appendChild(tHead);
-
-        // body / albums
-        let tBody = document.createElement('tbody');
-        data[interval].forEach(function(album) {
-
-            let albumElem = document.createElement('tr');
-            
-            columns.forEach(function(columnName){
-                let cellVal = album[columnName];
-                let cellElem = document.createElement('td');
-                let calculatedFilter = genFilterFromFeed(album, columnName);
-                
-                cellElem.innerHTML = cellVal;
-                if(calculatedFilter)  {
-                    cellElem.dataset.nFilter = calculatedFilter;
-                    cellElem.onmousedown = updateFilter;
-                    albumElem.setAttribute('title', i18n['access']);
+            //head
+            let tHead = document.createElement('thead');
+            let headerRow = document.createElement('tr');
+            columns.foreach(
+                function (head) {
+                    let thElem = document.createElement('th');
+                    thElem.innerHTML = i18n[head.toLowerCase()] || head;
+                    headerRow.appendChild(thElem);
                 }
-                
-                albumElem.appendChild(cellElem);
-            });
+            );
+            tHead.appendChild(headerRow);
+            table.appendChild(tHead);
+
+            // body / albums
+            let tBody = document.createElement('tbody');
+            data[interval].foreach(
+                function (album) {
+
+                    let albumElem = document.createElement('tr');
             
-            tBody.appendChild(albumElem);
+                    columns.foreach(
+                        function (columnName) {
+                            let cellVal = album[columnName];
+                            let cellElem = document.createElement('td');
+                            let calculatedFilter = genFilterFromFeed(album, columnName);
+                
+                            cellElem.innerHTML = cellVal;
+                            if (calculatedFilter) {
+                                cellElem.dataset.nFilter = calculatedFilter;
+                                cellElem.onmousedown = updateFilter;
+                                albumElem.setAttribute('title', i18n['access']);
+                            }
+                
+                            albumElem.appendChild(cellElem);
+                        }
+                    );
+            
+                    tBody.appendChild(albumElem);
 
-        });
-        table.appendChild(tBody);
+                }
+            );
+            table.appendChild(tBody);
 
-        section.appendChild(title);
-        section.appendChild(table);
+            section.appendChild(title);
+            section.appendChild(table);
 
-        sorttable.makeSortable(table);
-        target.appendChild(section);
-    });
+            sorttable.makeSortable(table);
+            target.appendChild(section);
+        }
+    );
 }
 
-function genFilterFromFeed(data, index) {
+function genFilterFromFeed(data, index)
+{
     let newfilter = {};
     
     if (index == "Genre") {

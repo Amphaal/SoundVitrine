@@ -1,9 +1,10 @@
-<?php 
+<?php
 
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/data-generator/data_generator.php";
+require "lib/data-generator/data_generator.php";
 
-function routerInterceptor_Manage($qs_action) {
-    switch($qs_action) {
+function routerInterceptor_Manage($qs_action)
+{
+    switch ($qs_action) {
         case "create":
             return accountCreation();
         case "disconnect":
@@ -12,17 +13,22 @@ function routerInterceptor_Manage($qs_action) {
             return ProfilePic();
         case "bb":
             return BackgroundBand();
-        default;
+        default:
             return home();
     }
 }
 
-function BackgroundBand() {
+function BackgroundBand()
+{
     $newColors = file_get_contents('php://input');
-    if(!$newColors) return;
+    if (!$newColors) {
+        return;
+    }
     $newColors = json_decode($newColors);
-    
-    if(!isUserLogged()) return;
+
+    if (!isUserLogged()) {
+        return;
+    }
 
     UserDb::update(array("customColors" => $newColors));
     echo "OK";
@@ -30,10 +36,10 @@ function BackgroundBand() {
 }
 
 
-function ProfilePic() {
+function ProfilePic()
+{
     //upload
-    if($_FILES && isUserLogged()) {
- 
+    if ($_FILES && isUserLogged()) {
         //prepare...
         $currentUser = getCurrentUserLogged();
         $expectedFilename = "file";
@@ -47,7 +53,7 @@ function ProfilePic() {
 
         //remove previous if different ext...
         $currentpicFN = getProfilePicture($currentUser);
-        if($currentpicFN && $currentpicFN != $ppname) {
+        if ($currentpicFN && $currentpicFN != $ppname) {
             $currentpicFN = getInternalUserFolder($currentUser) . $currentpicFN;
             @unlink($currentpicFN);
         }
@@ -56,13 +62,15 @@ function ProfilePic() {
         setMyProfilePicture($ppname);
 
         //return
-        ob_clean(); flush();
+        ob_clean();
+        flush();
         echo getPublicUserFolderOf($currentUser) . $ppname;
-        return;  
+        return;
     }
 }
 
-function home() {
+function home()
+{
 
     $login_result = null;
     login($login_result);
@@ -72,20 +80,20 @@ function home() {
     $mylib_loc = getLocation("MyLibrary");
     $is_not_my_lib = true;
     $dd_folders = array();
-    
-    //if user is logged...
-    if($iul) {
 
+    //if user is logged...
+    if ($iul) {
         $is_not_my_lib = (getLocation("ThisLibrary") != $mylib_loc);
 
         //downloads...
         $curUser = getCurrentUserLogged();
         $pp = getProfilePicture($curUser);
         $pp_path = null;
-        if($pp) $pp_path = getPublicUserFolderOf($curUser) . $pp;
+        if ($pp) {
+            $pp_path = getPublicUserFolderOf($curUser) . $pp;
+        }
 
         $dd_folders = array_keys(availableDownloads());
-
     }
 
     //title
@@ -93,55 +101,58 @@ function home() {
     setTitle(i18n($title));
 
     injectAndDisplayIntoAdminLayout("layout/admin/components/home.php", get_defined_vars());
-}  
+}
 
 
 
-function accountCreation() {
+function accountCreation()
+{
     $rules = [
         "username" => ["min" => 6, "max" => 20],
         "password" => ["min" => 8, "max" => 20],
     ];
-    
+
     $acr = null;
-    if($_POST){
+    if ($_POST) {
         $acr = tryCreatingUser($rules);
-        if(!$acr["isError"]) {
+        if (!$acr["isError"]) {
             login();
         }
-    } 
+    }
 
     injectAndDisplayIntoAdminLayout("layout/admin/components/create_account.php", get_defined_vars());
 }
 
-function disconnect() {
+function disconnect()
+{
     session_unset();
     session_destroy();
 
-    if(isXMLHttpRequest()) {
+    if (isXMLHttpRequest()) {
         goToLocation("Home");
-    } else { 
-        header('location: '. $_SERVER['HTTP_REFERER']);
+    } else {
+        header('location: ' . $_SERVER['HTTP_REFERER']);
     }
-
 }
 
-function login(&$login_result = null) {
+function login(&$login_result = null)
+{
 
-    if($_POST) {
+    if ($_POST) {
         $login_result = connectAs($_POST['username'], $_POST['password']);
-        
-        if(!$login_result['isError']) {
-            if(isXMLHttpRequest()) {
+
+        if (!$login_result['isError']) {
+            if (isXMLHttpRequest()) {
                 goToLocation("Home");
-            } else { 
+            } else {
                 goToLocation("MyLibrary");
             }
         }
     }
 }
 
-function tryCreatingUser($rules) {
+function tryCreatingUser($rules)
+{
 
     $ret = array("description" => null);
 
@@ -150,11 +161,10 @@ function tryCreatingUser($rules) {
     $end_checks = false;
 
     //checks...
-    while(!$end_checks && empty($ret["description"])) {
-
+    while (!$end_checks && empty($ret["description"])) {
         //fields filed
-        foreach($rules as $field => $f_rules) {
-            if(empty($field)) {
+        foreach ($rules as $field => $f_rules) {
+            if (empty($field)) {
                 $ret["description"] = i18n("crea_miss_p_u", i18n($field));
                 continue;
             }
@@ -165,13 +175,13 @@ function tryCreatingUser($rules) {
             $ret["description"] = i18n("err_nocreate_onlog");
             continue;
         }
-        
+
         //check user asked to create exists
         if (checkUserExists($user, true)) {
             $ret["description"] = i18n("user_already_exist", $user);
             continue;
         }
-        
+
         //check username over regex
         $isUNOk = null;
         preg_match('/^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$/', $user, $isUNOk);
@@ -181,15 +191,18 @@ function tryCreatingUser($rules) {
         }
 
         //check if min/max length on fields
-        foreach($rules as $field => $f_rules) {
-
+        foreach ($rules as $field => $f_rules) {
             $len = strlen($_POST[$field]);
             $min = $f_rules['min'];
             $max = $f_rules['max'];
 
-            if($len < $min || $len > $max) {
-                $ret["description"] = i18n("field_nc_pattern", i18n($field), 
-                                        $min, $max);
+            if ($len < $min || $len > $max) {
+                $ret["description"] = i18n(
+                    "field_nc_pattern",
+                    i18n($field),
+                    $min,
+                    $max
+                );
                 continue;
             }
         }
@@ -200,22 +213,27 @@ function tryCreatingUser($rules) {
 
     //check if return
     $ret["isError"] = !empty($ret["description"]);
-    if($ret["isError"]) return $ret;
+    if ($ret["isError"]) {
+        return $ret;
+    }
 
     //else create account
-    UserDb::update(array(
+    UserDb::update(
+        array(
         "password" => $passwd,
         "email" => $_POST['email'],
         "customColors" => randomizeBannerColors()
-    ), $user);
+        ),
+        $user
+    );
 
     return $ret;
-
 }
 
-function randomizeBannerColors() {
-    $getRandColorHex = function() {
-        $getRandColorGroup = function() {
+function randomizeBannerColors()
+{
+    $getRandColorHex = function () {
+        $getRandColorGroup = function () {
             return str_pad(strtoupper(dechex(rand(0, 255))), 2, "0", STR_PAD_LEFT);
         };
         return "#" . $getRandColorGroup() . $getRandColorGroup() . $getRandColorGroup();
@@ -224,26 +242,26 @@ function randomizeBannerColors() {
 }
 
 
-function connectAs($user, $passwd) {
+function connectAs($user, $passwd)
+{
     $ret = array("isError" => true, "description" => null);
-    
-    if(empty($user)) {
+
+    if (empty($user)) {
         $ret["description"] = i18n("e_log_nouser");
-    }
-    elseif(empty($passwd))  {
+    } elseif (empty($passwd)) {
         $ret["description"] = i18n("e_nopass");
     }
-    if(isset($_SESSION["loggedAs"]) && $_SESSION["loggedAs"] == $user) {
+    if (isset($_SESSION["loggedAs"]) && $_SESSION["loggedAs"] == $user) {
         $ret["isError"] = false;
         $ret["description"] = i18n("e_log_identical");
-    } elseif(UserDb::from($user) == null) {
+    } elseif (UserDb::from($user) == null) {
         $ret["description"] = i18n("e_unsu", $user);
-    } elseif($passwd != UserDb::from($user)["password"]) {
+    } elseif ($passwd != UserDb::from($user)["password"]) {
         $ret["description"] = i18n("e_pmm");
     } else {
         $ret["isError"] = false;
         $_SESSION["loggedAs"] = $user;
     }
-    
+
     return $ret;
-} 
+}

@@ -1,5 +1,5 @@
 <div id='app-connect'>
-    <?php include $_SERVER["DOCUMENT_ROOT"] . "/layout/explorer/components/connect_btn.php" ?>
+    <?php require "layout/explorer/components/connect_btn.php" ?>
     <div id="connectContainer">
         <div class="logoContainer">
             <img src="/public/images/ico.png" width="50%"/>

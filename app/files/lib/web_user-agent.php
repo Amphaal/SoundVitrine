@@ -4,7 +4,8 @@
 // OS Related //
 ////////////////
 
-function getOS() { 
+function getOS()
+{
 
     $os_array = array(
         '/mac/i' =>  'Mac',
@@ -13,9 +14,11 @@ function getOS() {
         '/android/i' =>  'Android'
     );
 
-    foreach ($os_array as $regex => $value) { 
-        if (preg_match($regex, $_SERVER['HTTP_USER_AGENT'])) return $value;
-    }   
+    foreach ($os_array as $regex => $value) {
+        if (preg_match($regex, $_SERVER['HTTP_USER_AGENT'])) {
+            return $value;
+        }
+    }
 
     return null;
 }
@@ -27,12 +30,14 @@ $_DF_OS = array(
 
 $_OS_DF = array_flip($_DF_OS);
 
-function fromDownloadFolderToOS($folder) {
+function fromDownloadFolderToOS($folder)
+{
     global $_DF_OS;
     return array_key_exists($folder, $_DF_OS) ? $_DF_OS[$folder] : null;
 }
 
-function fromOSToDownloadFolder($os) {
+function fromOSToDownloadFolder($os)
+{
     global $_OS_DF;
     return array_key_exists($os, $_OS_DF) ? $_OS_DF[$os] : null;
 }

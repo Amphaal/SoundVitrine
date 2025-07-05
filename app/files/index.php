@@ -5,32 +5,37 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include $_SERVER["DOCUMENT_ROOT"] . "/config.php";
+//
+set_include_path(__DIR__);
+require 'vendor/autoload.php';
 
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/i18n.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/users-management/users_management.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/web_title.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/web_user-agent.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/css_compiler.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/string_extensions.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/error_handling.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/templating.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/templating.shards.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/file_uploading.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/http.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/lib/magnifik_input.php";
-
-include $_SERVER["DOCUMENT_ROOT"] . "/controllers/uploadMusicLibrary.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/controllers/uploadShout.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/controllers/manage.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/controllers/downloadApp.php";
-include $_SERVER["DOCUMENT_ROOT"] . "/controllers/musicLibrary.php";
+include "config.php";
 
 // handles users sessions, start
 session_start();
 
-function init_app() {
-    // 
+include "lib/i18n.php";
+include "lib/users-management/users_management.php";
+include "lib/web_title.php";
+include "lib/web_user-agent.php";
+include "lib/css_compiler.php";
+include "lib/string_extensions.php";
+include "lib/error_handling.php";
+include "lib/templating.php";
+include "lib/templating.shards.php";
+include "lib/file_uploading.php";
+include "lib/http.php";
+include "lib/magnifik_input.php";
+
+include "controllers/uploadMusicLibrary.php";
+include "controllers/uploadShout.php";
+include "controllers/manage.php";
+include "controllers/downloadApp.php";
+include "controllers/musicLibrary.php";
+
+function init_app()
+{
+    //
     checkUserSpecificFolders(); // generate folders if non existing
     sanitizePOST(); // cleanup POST
 
@@ -39,9 +44,9 @@ function init_app() {
 
     // 1st part of URL
     $qs_domain = array_shift($qs);
-    
+
     //
-    switch($qs_domain) {
+    switch ($qs_domain) {
         // should be handled by proxy (database files)
         // case 'data' : {}
 
@@ -63,16 +68,18 @@ function init_app() {
         case 'u': {
             // 2cnd part of URL
             $qs_user =  array_shift($qs);
-            if (!empty($qs_user)) $qs_user = strtolower($qs_user); // always lower
+            if (!empty($qs_user)) {
+                $qs_user = strtolower($qs_user); // always lower
+            }
 
-            // 
-            checkUserExists($qs_user); 
+            //
+            checkUserExists($qs_user);
 
             // 3rd part of URL
             $qs_action = array_shift($qs);
 
             //
-            switch($qs_action) {
+            switch ($qs_action) {
                 case 'uploadShout': {
                     return routerInterceptor_uploadShout($qs_user);
                 }
@@ -84,7 +91,7 @@ function init_app() {
                     routerMiddleware_UploadMusicLibrary($qs_user, $qs_action == 'uploadMusicLibrary');
 
                     // if action provided, but unknown, redirect to admin home
-                    if(!empty($qs_action)) {
+                    if (!empty($qs_action)) {
                         home();
                     } else {
                         // else, show music library
@@ -96,7 +103,7 @@ function init_app() {
         break;
 
         // means root "/"
-        case NULL: {
+        case null: {
             // get users so we can display them
             $users = UserDb::all();
             setTitle(i18n("welcome"));

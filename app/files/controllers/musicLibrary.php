@@ -1,11 +1,12 @@
-<?php 
+<?php
 
-function routerInterceptor_MusicLibrary($qs_user) {
+function routerInterceptor_MusicLibrary($qs_user)
+{
 
     $expectedLibrary = getInternalUserFolder($qs_user) . constant("MUSIC_LIB_PROFILE_FILE_NAME");
     $profilePicture = getProfilePicture($qs_user);
-    
-    $expectedProfilePic = NULL;
+
+    $expectedProfilePic = null;
     if ($profilePicture) {
         $expectedProfilePic = getPublicUserFolderOf($qs_user) . $profilePicture;
     }
@@ -21,6 +22,6 @@ function routerInterceptor_MusicLibrary($qs_user) {
     setTitle(i18n('libraryOf', $qs_user));
     $initialRLoaderUrl = getLocation("Home", true);
 
-    include $_SERVER["DOCUMENT_ROOT"] . "/layout/explorer/entrypoint.php";
+    include "layout/explorer/entrypoint.php";
     exit;
 }

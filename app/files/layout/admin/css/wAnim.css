@@ -1,14 +1,14 @@
 
 @keyframes Gradient {
-	0% {
-		transform: translateX(25%) translateY(25%);
-	}
-	50% {
-        transform: translateX(-25%) translateY(-25%);
-	}
-	100% {
+    0% {
         transform: translateX(25%) translateY(25%);
-	}
+    }
+    50% {
+        transform: translateX(-25%) translateY(-25%);
+    }
+    100% {
+        transform: translateX(25%) translateY(25%);
+    }
 }
 
 .wAnim {

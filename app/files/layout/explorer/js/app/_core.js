@@ -1,13 +1,18 @@
 ///
 /// STARTUP
 ///
-window.addEventListener("load", function() {
-    waitTransitionEnd(document.getElementById("loader-container"), function(elem) {
-        elem.style.opacity = 1;
-    }).then(initializateApp); 
-});
+window.addEventListener(
+    "load", function () {
+        waitTransitionEnd(
+            document.getElementById("loader-container"), function (elem) {
+                elem.style.opacity = 1;
+            }
+        ).then(initializateApp); 
+    }
+);
 
-function initializateApp() {
+function initializateApp()
+{
     
     //instantiation
     navigatorSpecificParameterization();
@@ -24,10 +29,11 @@ function initializateApp() {
 }
 
 //download library
-function requestUserUnifiedMusicLibrary() {
+function requestUserUnifiedMusicLibrary()
+{
     let request = new XMLHttpRequest(); 
     request.onprogress = updateProgress;
-    request.onloadend = function(e) {
+    request.onloadend = function (e) {
         if (e.currentTarget.status == 200) {
             processUnifiedMusicLibrary(e.currentTarget.responseText);
         }
@@ -37,7 +43,8 @@ function requestUserUnifiedMusicLibrary() {
 }
 
 //process...
-function processUnifiedMusicLibrary(unifiedAsJSONText) {
+function processUnifiedMusicLibrary(unifiedAsJSONText)
+{
     
     unified = JSON.parse(unifiedAsJSONText); //parse
     _appDataFeeds = generateDataFeeds(unified); //bind lib to data functions

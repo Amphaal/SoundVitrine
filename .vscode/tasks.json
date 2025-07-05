@@ -5,7 +5,7 @@
     /// Dev Deps
     ///
     {
-      "label": "0. Install Dev Prerequisites (requires admin privileges)",
+      "label": "0. Install Composer (requires admin privileges)",
       "windows": {
         // make sure to install Chocolatey beforehand (https://docs.chocolatey.org/en-us/choco/setup/)
         "command": "choco",
@@ -18,10 +18,10 @@
       "problemMatcher": []
     },
     {
-      "label": "1. Install Composer dev dependencies",
+      "label": "1. Install dev dependencies",
       "command": "composer install",
       "options": {
-        "cwd": "${workspaceFolder}/app"
+        "cwd": "${workspaceFolder}/app/files"
       },
       "problemMatcher": []
     },

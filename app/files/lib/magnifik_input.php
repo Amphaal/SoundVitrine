@@ -1,61 +1,69 @@
 <?php
 
 /** */
-function renderMagnifikInput($params, $rules = null) {
+function renderMagnifikInput($params, $rules = null)
+{
     $newInput = array();
     $newContainer = array();
     $descr = "";
 
-    $toPh = function($val) { return 'placeholder="' . $val . "\"";};
-    $toVal = function($val) { return 'value="' . $val ."\"";};
+    $toPh = function ($val) {
+        return 'placeholder="' . $val . "\"";
+    };
+    $toVal = function ($val) {
+        return 'value="' . $val . "\"";
+    };
 
     //if type unset, set default
-    if(!array_key_exists('type', $params)) $params['type'] = "text";
+    if (!array_key_exists('type', $params)) {
+        $params['type'] = "text";
+    }
 
     //autoset name depending on type
-    if(in_array($params['type'], array("password", "email"))) {
+    if (in_array($params['type'], array("password", "email"))) {
         $params["name"] = $params["type"];
     }
 
     $inputName = $params["name"];
 
     //if required, specific binding
-    if(array_key_exists('required', $params)) {
+    if (array_key_exists('required', $params)) {
         array_push($newInput, "required");
         unset($params["required"]);
     }
 
     //placeholder helper
-    if(array_key_exists('placeholder', $params)) {
-        
+    if (array_key_exists('placeholder', $params)) {
         $trad = $toPh(
             i18n($params["placeholder"])
         );
-        
+
         array_push($newContainer, $trad);
         unset($params["placeholder"]);
     }
 
     //value helper
     $prem = _PRem($inputName);
-    if($prem) {
+    if ($prem) {
         $prem = $toVal($prem);
         array_push($newInput, $prem);
     }
 
     //rules helper
-    if($rules && $rules[$inputName]) {
+    if ($rules && $rules[$inputName]) {
         array_push($newInput, 'pattern="' .  _renHpat($rules[$inputName]) . "\"");
         $content = i18n("e_log_rule", $rules[$inputName]["min"], $rules[$inputName]["max"]);
         array_push($newInput, $toPh($content));
     }
 
     //default parsing
-    foreach($params as $key => $value) {
+    foreach ($params as $key => $value) {
         array_push($newInput, $key . "=\"" . $value . "\"");
     }
 
-    $impl = function($arr) { return implode(" ", $arr);};
+    $impl = function ($arr) {
+        return implode(" ", $arr);
+    };
 
     return "<div class='magnifik' " . $impl($newContainer) . " >
                 <input " . $impl($newInput) . " />
@@ -63,11 +71,13 @@ function renderMagnifikInput($params, $rules = null) {
 }
 
 //Render HTTP pattern from values
-function _renHpat($rules) {
-    return ".{". $rules['min'] . "," . $rules['max'] . "}";
+function _renHpat($rules)
+{
+    return ".{" . $rules['min'] . "," . $rules['max'] . "}";
 }
 
 //POST remember
-function _PRem($post_val) {
+function _PRem($post_val)
+{
     return isset($_POST[$post_val]) ? $_POST[$post_val] : "";
 }

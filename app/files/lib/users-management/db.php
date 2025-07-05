@@ -5,8 +5,8 @@
 //
 
 //
-class _AbstractUsersDatabase {
-
+class _AbstractUsersDatabase
+{
     ///////////////
     // SINGLETON //
     ///////////////
@@ -15,20 +15,22 @@ class _AbstractUsersDatabase {
     private static $_instance = null;
 
     // refreshes database instance
-    public static function refresh() {
+    public static function refresh()
+    {
         self::$_instance = new self();
     }
 
     // get database
-    public static function get() {
+    public static function get()
+    {
         //
-        if(is_null(self::$_instance)) {
+        if (is_null(self::$_instance)) {
             self::refresh();
         }
 
         //
         return self::$_instance;
-    }  
+    }
 
     ///////////////////
     // END SINGLETON //
@@ -39,13 +41,15 @@ class _AbstractUsersDatabase {
 
     // where to search for database file (local filesystem URI)
     protected $_db_path;
-    
-    private function __construct() {
+
+    private function __construct()
+    {
         $this->_db_path = constant("USER_DB_FILE_PATH");
         $this->_db = $this->_obtainDatabaseAsObject();
     }
 
-    private function _updateDbRaw($new_db_raw) {
+    private function _updateDbRaw($new_db_raw)
+    {
         @mkdir(dirname($this->_db_path)); // create the containing directory
         file_put_contents($this->_db_path, $new_db_raw); // write the new file
     }
@@ -53,88 +57,105 @@ class _AbstractUsersDatabase {
     /**
      * @param db_to_write database as PHP object
      */
-    private function _updateDb($db_to_write) {
+    private function _updateDb($db_to_write)
+    {
         $db_as_json = json_encode($db_to_write, JSON_PRETTY_PRINT);
         $this->_updateDbRaw($db_as_json);
     }
 
-    public function updateDb($new_db) {
+    public function updateDb($new_db)
+    {
         $this->_updateDb($new_db);
         self::refresh();
     }
 
-    private function _createDefaultDatabase() {
+    private function _createDefaultDatabase()
+    {
         $this->_updateDbRaw("{}");
     }
 
-    private function _obtainDatabaseAsObject() {
+    private function _obtainDatabaseAsObject()
+    {
         $db = null;
         $file_content = @file_get_contents($this->_db_path);
 
         //generate the db file if inexistant
-        if($file_content === FALSE) {
+        if ($file_content === false) {
             $this->_createDefaultDatabase();
         } else {
             $db = json_decode($file_content, true);
         }
 
-        if(!$db) {
+        if (!$db) {
             $this->_createDefaultDatabase();
         }
 
         return $db;
     }
-    
-};
+}
 
 //
 //
 //
 
 //
-class UserDb {
-    
+class UserDb
+{
     private static $_private_fields = array(
-        "password" => null, 
+        "password" => null,
         "email" => null
     );
 
-    private static function _stripPrivate($data) {
-        if(!$data) return $data;
+    private static function _stripPrivate($data)
+    {
+        if (!$data) {
+            return $data;
+        }
         return array_diff_key($data, self::$_private_fields);
     }
 
-    public static function update($new_data, $targetUser = null) {
-        if($targetUser == null) $targetUser = getCurrentUserLogged();
-        if(!$targetUser) return;
-        
+    public static function update($new_data, $targetUser = null)
+    {
+        if ($targetUser == null) {
+            $targetUser = getCurrentUserLogged();
+        }
+        if (!$targetUser) {
+            return;
+        }
+
         $allUsers = self::all();
-    
+
         //from base data
         $base = array_key_exists($targetUser, $allUsers) ? $allUsers[$targetUser] : array();
         $new_data = array_merge($base, $new_data); //merge
-    
+
         //apply
         $allUsers[$targetUser] = $new_data;
         _AbstractUsersDatabase::get()->updateDb($allUsers);
     }
-    
-    /** list all users */
-    public static function all() {
+
+    /**
+     * list all users
+     */
+    public static function all()
+    {
         return _AbstractUsersDatabase::get()->_db ?? [];
     }
 
-    public static function from($user) {
+    public static function from($user)
+    {
         $requested = self::all()[$user] ?? null;
-        if($requested) {
-            if(!array_key_exists("customColors", $requested)) 
+        if ($requested) {
+            if (!array_key_exists("customColors", $requested)) {
                 $requested["customColors"] = constant("DEFAULT_BACKGROUND_COLORS");
+            }
         }
         return $requested;
     }
 
-    public static function mine() {
-       if(isUserLogged()) {
+    public static function mine()
+    {
+        if (isUserLogged()) {
             return self::from(getCurrentUserLogged());
         }
     }
@@ -143,13 +164,13 @@ class UserDb {
     ///
     ///
 
-    public static function fromProtected($user) {
+    public static function fromProtected($user)
+    {
         return self::_stripPrivate(self::from($user));
     }
 
-    public static function mineProtected() {
+    public static function mineProtected()
+    {
         return self::_stripPrivate(self::mine());
     }
-    
 };
-

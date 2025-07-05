@@ -24,7 +24,7 @@ function createWebSocketForShouts() {
      */
     const onMessage = (event) => {
         const payload = JSON.parse(event.data);
-        switch(payload.id) {
+        switch (payload.id) {
             //
             case "newShout": {
                 console.log('Received shout update ! Handling...');
@@ -130,7 +130,7 @@ function instShoutMuteButton() {
     let icon = document.querySelector('#shoutContainer .mute i');
     
     //instantiate sound
-    if(notificationShoutSound == null) {
+    if (notificationShoutSound == null) {
         notificationShoutSound = new Audio('/public/audio/long-expected.mp3');
         notificationShoutSound.autoplay = false;
         notificationShoutSound.muted = false;
@@ -195,7 +195,7 @@ function onReceivedShout(newShoutData) {
                 _currentShout = newShoutData;
 
                 //notif if scrolled
-                if(!_isInClientViewField(shoutContainer)) {
+                if (!_isInClientViewField(shoutContainer)) {
         
                     //force refresh anim
                     let out = document.getElementById('shoutNotificationWidget');
@@ -206,7 +206,7 @@ function onReceivedShout(newShoutData) {
                     });
                 }
                 //display main notif frame
-                if(isHardChange) window.requestAnimationFrame(function() {
+                if (isHardChange) window.requestAnimationFrame(function() {
                     /** CHROME API */
                     const hasUserBeenActive = navigator.userActivation != null && navigator.userActivation.hasBeenActive;
 
@@ -230,7 +230,7 @@ function onReceivedShout(newShoutData) {
 
     //if shouts are already kicking in > trigger notif before re-toggling
     let isShoutContainerRefreshingContent = shoutContainer.clientHeight > 0;
-    if(isShoutContainerRefreshingContent && notif.classList.contains('fade') && isHardChange) {
+    if (isShoutContainerRefreshingContent && notif.classList.contains('fade') && isHardChange) {
 
         waitTransitionEnd(notif, function() {
             notif.classList.remove('fade');
@@ -251,7 +251,7 @@ function compareShoutChanges(newShout) {
     b = Object.keys(newShout);
     c = new Set(a.concat(b));
     d = [];
-    c.forEach(function(v){d.push(v);});
+    c.foreach (function(v){d.push(v);});
     return d.filter(function(id){
         return newShout[id] !== _currentShout[id];
     });
@@ -273,7 +273,7 @@ function _updateShoutDisplayableData(shoutData, changes) {
     if (changes.includes('album')) {
         let aImage = document.querySelector('#shoutContainer .cover');
         resetImgLoader(aImage);
-        if(album && artist) queryMusicBrainzForAlbumCover('shout', album, artist).then(
+        if (album && artist) queryMusicBrainzForAlbumCover('shout', album, artist).then(
             function(imgUrl) {
                 updateImgLoader(aImage, imgUrl);
             },function() {
@@ -287,7 +287,7 @@ function _updateShoutDisplayableData(shoutData, changes) {
         let aLink = document.querySelector('#shoutContainer a');
         aLink.removeAttribute('href');
         aLink.removeAttribute('target');
-        if(artist && name) {
+        if (artist && name) {
             aLink.setAttribute('href', linkToYoutube(artist, name));
             aLink.setAttribute('target','_blank');
         }
@@ -297,23 +297,23 @@ function _updateShoutDisplayableData(shoutData, changes) {
     if (changes.includes('name')) {
         let aDescr = document.querySelector('#shoutContainer .albumDesc .name');
         aDescr.innerHTML = '';
-        if(name) aDescr.innerHTML = name;
+        if (name) aDescr.innerHTML = name;
     }
 
     //update meta 
     if (changes.includes('artist') || changes.includes('album')) {
         let aMeta = document.querySelector('#shoutContainer .albumDesc .meta');
         aMeta.innerHTML = '';
-        if(artist && album) aMeta.innerHTML = [artist, album].join(" - ");
-        if(year) aMeta.innerHTML += " (" + year + ")";
-        if(genre) {
+        if (artist && album) aMeta.innerHTML = [artist, album].join(" - ");
+        if (year) aMeta.innerHTML += " (" + year + ")";
+        if (genre) {
             aMeta.innerHTML = "<span>" + aMeta.innerHTML + "</span>";
             aMeta.innerHTML += "<span style='color:grey'>&nbsp;//&nbsp;" + genre + "</span>";
         }
     }
 
     //update timeline
-    if(changes.includes('duration') || changes.includes('playerPosition') || changes.includes('playerState') || changes.includes('date')) {
+    if (changes.includes('duration') || changes.includes('playerPosition') || changes.includes('playerState') || changes.includes('date')) {
         let aTimeline = document.querySelector('#shoutContainer .timeline');
         
         //reset animation
@@ -327,7 +327,7 @@ function _updateShoutDisplayableData(shoutData, changes) {
         let position = shoutData['playerPosition'] + (state ? calculateSecondsElapsed(shoutData['date']) : 0);
         aTimeline.style.animationDuration = duration + 's';
         aTimeline.style.animationDelay = -position + 's';
-        if(!state) aTimeline.style.animationPlayState = 'paused';
+        if (!state) aTimeline.style.animationPlayState = 'paused';
         aTimeline.classList.add('animTimeline');      
     }
 

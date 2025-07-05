@@ -9,13 +9,13 @@
         </span>
         <div id='banner'>
             <div id='banner-desc'>
-                <?= i18n('libraryOfHead', $qs_user)?>
+                <?php echo i18n('libraryOfHead', $qs_user)?>
             </div>
-            <?php include $_SERVER["DOCUMENT_ROOT"] . "/layout/explorer/components/music_library/parts/menu.php" ?>
-            <?php include $_SERVER["DOCUMENT_ROOT"] . "/layout/explorer/components/music_library/parts/searchBand.php" ?>
+            <?php require "layout/explorer/components/music_library/parts/menu.php" ?>
+            <?php require "layout/explorer/components/music_library/parts/searchBand.php" ?>
         </div>
-        <?php include $_SERVER["DOCUMENT_ROOT"] . "/layout/explorer/components/connect_btn.php" ?>
+        <?php require "layout/explorer/components/connect_btn.php" ?>
     </div>
-    <?php include $_SERVER["DOCUMENT_ROOT"] . "/layout/explorer/components/music_library/parts/profile.php" ?>
-    <?= _wAnim($qs_user)?>
+    <?php require "layout/explorer/components/music_library/parts/profile.php" ?>
+    <?php echo _wAnim($qs_user)?>
 </header>

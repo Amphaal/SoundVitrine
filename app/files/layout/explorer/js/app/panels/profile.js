@@ -1,4 +1,5 @@
-function toggleProfile() {
+function toggleProfile()
+{
     preventSET(
         _toggleShutter('profileContainer', resizeProfile)
     );
@@ -8,7 +9,8 @@ function toggleProfile() {
 /// resize functions
 ///
 
-function resizeProfile() {
+function resizeProfile()
+{
     return _resizeShutter(
         'profileContainer',
         document.getElementById('showProfile').checked
