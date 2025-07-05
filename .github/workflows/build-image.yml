@@ -31,7 +31,7 @@ jobs:
       - name: Extract appVersion from Composer
         id: data-from-composer
         run: |
-          APP_VERSION=$(jq -r '.version' app/files/composer.json)
+          APP_VERSION=$(jq -r '.version' ./app/files/composer.json)
           echo "appVersion=${APP_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Extract metadata (tags, labels) for Docker
