@@ -1,0 +1,23 @@
+name: SoundVitrine
+
+services:
+  app:
+    restart: on-failure:1
+    image: Amphaal/soundvitrine
+    build: 
+      context: ../app
+      target: runtime-xdebug
+    ports:
+      - "80:80" # HTTP
+    volumes:
+     - ../_state:/app/_state:rw
+    develop:
+      watch:
+        - action: sync+restart
+          path: ../app/Caddyfile
+          target: /etc/frankenphp/Caddyfile
+        - action: sync
+          path: ../app/files
+          target: /app/public
+    extra_hosts:
+      - host.docker.internal:host-gateway

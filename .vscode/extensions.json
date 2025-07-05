@@ -1,5 +1,9 @@
 {
     "recommendations": [
-        "ahmadalli.vscode-nginx-conf"
+        "bmewburn.vscode-intelephense-client",
+        "devsense.composer-php-vscode",
+        "matthewpi.caddyfile-support",
+        "xdebug.php-debug",
+        "obliviousharmony.vscode-php-codesniffer"
     ]
 }

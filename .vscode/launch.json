@@ -5,46 +5,53 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "sourceMaps": true,
-            "preLaunchTask": "Update SoundSentry Source code",
-            "address": "localhost",
-            "localRoot": "${workspaceFolder}/soundsuite_debug/SoundSentry/dist",
-            "remoteRoot": "/home/node/app/dist",
-            "name": "1. Debug SoundSentry",
-            "port": 9229,
-            "request": "attach",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "presentation": {
-                "hidden": true,
-                "group": "",
-                "order": 1
-            }
-        },
-        {
-            "name": "2. Debug SoundVitrine",
+            "name": "Launch App",
             "type": "chrome",
             "request": "launch",
-            "postDebugTask": "Shutdown debug stack",
             "url": "http://localhost",
-            "webRoot": "${workspaceFolder}",
             "presentation": {
-                "hidden": true,
-                "group": "",
-                "order": 2
-            }
-        }
-    ],
-    "compounds": [
+                "group": "2. Launch",
+                "order": 1
+            },
+        },
+        //
+        //
+        //
         {
-            "name": "Debug Full stack",
-            "configurations": [
-                "1. Debug SoundSentry",
-                "2. Debug SoundVitrine",
-            ],
-            "preLaunchTask": "Run debug stack"
-        }
-    ]
+            "name": "XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "pathMappings": {
+                "/app/public": "${workspaceFolder}/app/files"
+            },
+            "presentation": {
+                "hidden": false,
+                "group": "1. Compose",
+                "order": 2
+            },
+        },
+        {
+            "name": "Docker Compose",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "docker compose up --watch --build",
+            "cwd": "${workspaceFolder}/.dev",
+            "serverReadyAction": {
+                "action": "startDebugging",
+                "pattern": "server running",  
+                "name": "XDebug",
+                "killOnServerStop": true
+            },
+            "presentation": {
+                "hidden": false,
+                "group": "1. Compose",
+                "order": 1
+            },
+            "cascadeTerminateToConfigurations": [
+                "XDebug",
+                "Launch App"
+            ]
+        },
+    ],
 }

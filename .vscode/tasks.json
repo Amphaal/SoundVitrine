@@ -1,42 +1,29 @@
 {
-	"version": "2.0.0",
-	"tasks": [
+  "version": "2.0.0",
+  "tasks": [
+    ///
+    /// Dev Deps
+    ///
     {
-      "label": "Shutdown debug stack",
-      "type": "shell",
-      "command": "docker",
-      "args": ["compose", "-f", "docker-compose.debug.yml", "down", "-v"],
-      "options": {
-        "cwd": "${workspaceFolder}/soundsuite_debug"
+      "label": "0. Install Composer (requires admin privileges)",
+      "windows": {
+        // make sure to install Chocolatey beforehand (https://docs.chocolatey.org/en-us/choco/setup/)
+        "command": "choco",
+        "args": ["install", "-y", "php", "composer"]
       },
+      "osx": {
+        "command": "brew",
+        "args": ["install", "php", "composer"]
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Run debug stack",
-      "type": "shell",
-      "command": "docker",
-      // "dependsOn": "shutdown debug stack",
-      "args": ["compose", "-f", "docker-compose.debug.yml", "up", "-d", "--wait"],
+      "label": "1. Install dev dependencies",
+      "command": "composer install",
       "options": {
-        "cwd": "${workspaceFolder}/soundsuite_debug"
-      }
+        "cwd": "${workspaceFolder}/app/files"
+      },
+      "problemMatcher": []
     },
-    {
-      "label": "Get SoundSentry Source code",
-      "type": "shell",
-      "command": "git",
-      "args": ["clone", "https://github.com/Amphaal/SoundSentry"],
-      "options": {
-        "cwd": "${workspaceFolder}/soundsuite_debug"
-      }
-    },
-    {
-      "label": "Update SoundSentry Source code",
-      "type": "shell",
-      "command": "git",
-      "args": ["pull"],
-      "options": {
-        "cwd": "${workspaceFolder}/soundsuite_debug/SoundSentry"
-      }
-    }
   ]
 }

@@ -1,7 +1,24 @@
 {
+    "terminal.integrated.cwd": "${workspaceFolder}/app/files",
     "js/ts.implicitProjectConfig.checkJs": true,
     "javascript.preferences.importModuleSpecifierEnding": "js",
     "search.exclude": {
-        "app/public/ext/js/**": true
+        "app/files/public/ext/js/**": true
+    },
+    "php.suggest.basic": false,
+    "intelephense.environment.phpVersion": "8.3.0",
+    "intelephense.environment.includePaths": [
+        "./vendor"
+    ],
+    "editor.indentSize": 4,
+    "editor.tabSize": 4,
+    "phpCodeSniffer.standard": "PSR12",
+    "phpCodeSniffer.exec.osx": "app/files/vendor/bin/phpcs",
+    "phpCodeSniffer.exclude": [
+        "**/vendor/**",
+        "**.js",
+    ],
+    "[php]": {
+        "editor.defaultFormatter": "obliviousharmony.vscode-php-codesniffer"
     }
 }
