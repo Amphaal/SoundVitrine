@@ -33,7 +33,7 @@ define("COMPILED_MUSIC_LIB_PROFILE_FILE_NAME", 'unified.json');
 define("SHOUT_PROFILE_FILE_NAME", 'shout.json');
 
 /**
- * where, on the current web server, is exposed the root of the app
+ * where - on the current domain the app is installed - is exposed the root of the app
 */
 define("WEB_APP_ROOT", "/");
 
@@ -53,7 +53,7 @@ define("DEFAULT_BACKGROUND_COLORS", array("#EE7752", "#E73C7E", "#23A6D5", "#23D
 /**
  * where to store state files on filesystem
 */
-define("STATE_FOLDER_PATH", "/app/_state");
+define("STATE_FOLDER_PATH", getenv("SOUNDVITRINE_STATE_PATH") ?: "/app/_state");
 
 /**
  * TODO

@@ -4,6 +4,9 @@ FROM dunglas/frankenphp:1-php8.3 AS base
 RUN install-php-extensions \
 	intl
 
+# Disables Caddy auto-HTTPS feature, HTTPS must be handled at edge by Traefik or another proxy in front of it
+ENV SERVER_NAME=":80"
+
 #
 FROM base AS base-xdebug
 RUN install-php-extensions \

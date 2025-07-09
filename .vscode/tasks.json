@@ -19,7 +19,8 @@
     },
     {
       "label": "1. Install dev dependencies",
-      "command": "composer install",
+      "command": "composer",
+      "args": ["install"],
       "options": {
         "cwd": "${workspaceFolder}/app/files"
       },

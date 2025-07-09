@@ -14,6 +14,7 @@
     "editor.tabSize": 4,
     "phpCodeSniffer.standard": "PSR12",
     "phpCodeSniffer.exec.osx": "app/files/vendor/bin/phpcs",
+    "phpCodeSniffer.exec.windows": "app\\files\\vendor\\bin\\phpcs.bat",
     "phpCodeSniffer.exclude": [
         "**/vendor/**",
         "**.js",

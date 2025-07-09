@@ -11,6 +11,10 @@ services:
       - "80:80" # HTTP
     volumes:
      - ../_state:/app/_state:rw
+    env:
+      SERVER_NAME: ":80"
+      MERCURE_PUBLISHER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
+      MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
     develop:
       watch:
         - action: sync+restart
