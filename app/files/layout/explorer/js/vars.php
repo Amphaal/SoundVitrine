@@ -1,12 +1,12 @@
 <script>
         'use strict';
 
-        var clientURLUnified = <?php echo json_encode($clientURLUnified)?>;
-        var clientURLShout = <?php echo json_encode($clientURLShout)?>;
-        var libraryUser = <?php echo json_encode($qs_user)?>;
+        var clientURLUnified = <?php echo json_encode($clientURLUnified) ?>;
+        var clientURLShout = <?php echo json_encode($clientURLShout) ?>;
+        var libraryUser = <?php echo json_encode($qs_user) ?>;
         
-        var sioURL = <?php echo json_encode(constant("SHOUT_SERVICE_WEBSOCKET_ROOT_HOST"))?>;
-        var initialRLoaderUrl = <?php echo json_encode($initialRLoaderUrl)?>;
+        var sioURL = <?php echo json_encode(constant("SHOUT_SERVICE_WEBSOCKET_ROOT_HOST")) ?>;
+        var initialRLoaderUrl = <?php echo json_encode($initialRLoaderUrl) ?>;
 
         var _discoverFilter = {
                 genreUI : null,

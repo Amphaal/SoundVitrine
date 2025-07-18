@@ -6,6 +6,8 @@
 {
 	skip_install_trust
 
+	auto_https disable_redirects # disables auto redirect
+
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {

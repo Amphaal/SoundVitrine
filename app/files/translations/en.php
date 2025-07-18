@@ -73,13 +73,18 @@ return array(
     "profile" => "profile",
     "sort_order" => "Sort by name",
     "sort_count" => "Sort by number / year",
-    "switch_lang" => "Change language",
-    "e_log_home" => "Create an account / Login",
+    "switch_lang" => "Switch to %s",
+    "e_log_home" => "Login / Create an account",
     "e_log_manage" => "Account management",
     "welcome" => "Welcome",
     "updateProfilePic" => "Update your profile picture",
     "updateBBand" => "Update your background wave",
     "cancel" => "Cancel",
     "validate" => "Validate",
-    "back" => "Back"
+    "back" => "Back",
+    //
+    "lang_en" => "English",
+    "lang_fr" => "French",
+    //
+    "title_uploadMusicLibrary" => "Upload your library"
 );

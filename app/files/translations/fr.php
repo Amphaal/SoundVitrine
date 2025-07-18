@@ -73,13 +73,18 @@ return array(
     "profile" => "profil",
     "sort_order" => "Trier par nom",
     "sort_count" => "Trier par nombre / année",
-    "switch_lang" => "Changer de langue",
-    "e_log_home" => "Créer un compte / Se connecter",
+    "switch_lang" => "Passer le site en %s",
+    "e_log_home" => "Se connecter / Créer un compte",
     "e_log_manage" => "Gestion du compte",
     "welcome" => "Bienvenue",
     "updateProfilePic" => "Mettre à jour son image de profil",
     "updateBBand" => "Mettre à jour la vague du bandeau",
     "cancel" => "Annuler",
     "validate" => "Valider",
-    "back" => "Retour"
+    "back" => "Retour",
+    //
+    "lang_en" => "Anglais",
+    "lang_fr" => "Français",
+    //
+    "title_uploadMusicLibrary" => "Téléverser votre librairie"
 );

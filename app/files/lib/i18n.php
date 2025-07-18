@@ -65,7 +65,8 @@ class I18nSingleton
     }
 };
 
-function i18n($key, ...$args)
+/** translator */
+function __($key, ...$args)
 {
     return sprintf(
         I18nSingleton::getInstance()->getDictionary()[$key],

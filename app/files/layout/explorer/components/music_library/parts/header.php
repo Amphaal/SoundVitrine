@@ -9,7 +9,7 @@
         </span>
         <div id='banner'>
             <div id='banner-desc'>
-                <?php echo i18n('libraryOfHead', $qs_user)?>
+                <?php echo __('libraryOfHead', $qs_user) ?>
             </div>
             <?php require "layout/explorer/components/music_library/parts/menu.php" ?>
             <?php require "layout/explorer/components/music_library/parts/searchBand.php" ?>
@@ -17,5 +17,5 @@
         <?php require "layout/explorer/components/connect_btn.php" ?>
     </div>
     <?php require "layout/explorer/components/music_library/parts/profile.php" ?>
-    <?php echo _wAnim($qs_user)?>
+    <?php echo _wAnim($qs_user) ?>
 </header>

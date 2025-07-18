@@ -44,7 +44,7 @@ function getLocation($rq, $abs = null)
     switch ($rq) {
         //
         case "Home": {
-            $r .= 'manage';
+            $r .= 'account';
         }
         break;
 

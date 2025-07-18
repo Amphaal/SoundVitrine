@@ -56,11 +56,6 @@ define("DEFAULT_BACKGROUND_COLORS", array("#EE7752", "#E73C7E", "#23A6D5", "#23D
 define("STATE_FOLDER_PATH", getenv("SOUNDVITRINE_STATE_PATH") ?: "/app/_state");
 
 /**
- * TODO
-*/
-define("COMPANION_APP_DOWNLOADS_FOLDER", $_SERVER["DOCUMENT_ROOT"] . "/../_downloads\/");
-
-/**
  * internal folder path of user's data
 */
 define("USER_DB_FILE_PATH", constant("STATE_FOLDER_PATH") . "/users.json");

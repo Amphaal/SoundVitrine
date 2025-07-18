@@ -5,7 +5,7 @@ class BBEditor {
             return;
         }
 
-        this._simblings = getSiblings(this._editor);
+        this._siblings = getSiblings(this._editor);
         this._picker = this._editor.getElementsByClassName("colorPicker")[0];
         this._pickers = this._picker.querySelectorAll(".colors > *");
         this._pickers.forEach(this._addChangeHandler.bind(this));
@@ -31,7 +31,7 @@ class BBEditor {
     saveColors(colors) {
         this._currentColors = colors;
         // TODO
-        _XMLHttpPromise("POST", "/manage/bb", JSON.stringify(colors));
+        _XMLHttpPromise("POST", "/account/bb", JSON.stringify(colors));
     }
 
     setColors(colors) {
@@ -114,8 +114,8 @@ class BBEditor {
         this.closePicker();
     }
 
-    _waitForSimblingsToTransition(func) {
-        return this._simblings.map(
+    _waitForsiblingsToTransition(func) {
+        return this._siblings.map(
             function (e) {
                 return waitTransitionEnd(e, func);
             }
@@ -126,10 +126,10 @@ class BBEditor {
 
         this._removeClickHandler();
 
-        let waitAll = this._waitForSimblingsToTransition(
-            function (simbling) {
-                simbling.style.pointerEvents = "none";
-                simbling.style.opacity = 0;
+        let waitAll = this._waitForsiblingsToTransition(
+            function (sibling) {
+                sibling.style.pointerEvents = "none";
+                sibling.style.opacity = 0;
             }
         );
 
@@ -151,10 +151,10 @@ class BBEditor {
 
                 this.setColors();
 
-                let waitAll = this._waitForSimblingsToTransition(
-                    function (simbling) {
-                        simbling.style.pointerEvents = "";
-                        simbling.style.opacity = "";
+                let waitAll = this._waitForsiblingsToTransition(
+                    function (sibling) {
+                        sibling.style.pointerEvents = "";
+                        sibling.style.opacity = "";
                     }
                 );
 

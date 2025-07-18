@@ -23,28 +23,28 @@ function _btnLink($url, $forceWLocation = false, $XMLR_noBackButton = false)
             <?php include "layout/admin/components/parts/bbEditor.php" ?>
             <?php include "layout/admin/components/parts/ppEditor.php" ?>
         </div>
-        <div><?php echo i18n("welcome_back", getCurrentUserLogged()) ?></div>
+        <div><?php echo __("welcome_back", getCurrentUserLogged()) ?></div>
     <?php } ?>
     <div class="loginRack">
         <?php if ($iul) {?>
             <?php if ($is_not_my_lib) {?>
-                <button class="hype" <?php _btnLink($mylib_loc, true)?>>
+                <button class="hype" <?php _btnLink($mylib_loc, true) ?>>
                     <i class="fas fa-book"></i>
-                    <span><?php echo i18n("log_accessMyLib")?></span>
+                    <span><?php echo __("log_accessMyLib") ?></span>
                 </button>
             <?php }?>
             <?php /* TODO */ ?>
-            <button class="hype" <?php _btnLink("/manage/disconnect", false, true)?>>
+            <button class="hype" <?php _btnLink("/account/disconnect", false, true) ?>>
                 <i class="fas fa-power-off"></i>
-                <span><?php echo i18n("log_disconnect")?></span>
+                <span><?php echo __("log_disconnect") ?></span>
             </button>
         <?php } else { ?>
             <?php include "layout/admin/components/login.php" ?>
             <hr/>
             <?php /* TODO */ ?>
-            <button class="hype" <?php _btnLink("/manage/create")?>>
+            <button class="hype" <?php _btnLink("/account/create") ?>>
                 <i class="fas fa-user-circle"></i>
-                <span><?php echo i18n("log_createAccount")?></span>
+                <span><?php echo __("log_createAccount") ?></span>
             </button>
         <?php } ?>
     </div>

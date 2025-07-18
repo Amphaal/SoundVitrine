@@ -1,4 +1,4 @@
-<h1><?php echo i18n("e_log_connect")?></h1>
+<h1><?php echo __("e_log_connect") ?></h1>
 <?php mayDisplayPopup($login_result); ?>
 <form method="POST" action="<?php echo $_SERVER["REQUEST_URI"] ?>">
     <?php echo renderMagnifikInput(
@@ -8,7 +8,7 @@
         "autocomplete" => "username",
         "required" => true
         )
-    )?>
+    ) ?>
     <?php echo renderMagnifikInput(
         array(
         "type" => "password",
@@ -16,11 +16,11 @@
         "autocomplete" => "current-password",
         "required" => true
         )
-    )?>
+    ) ?>
     <input 
         class="hype"
         type="submit" 
-        value="✓ <?php echo i18n("validate")?>"
-        title="<?php echo i18n("e_log_connect")?>"
+        value="✓ <?php echo __("validate") ?>"
+        title="<?php echo __("e_log_connect") ?>"
     />
 </form>

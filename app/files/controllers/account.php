@@ -2,7 +2,7 @@
 
 require "lib/data-generator/data_generator.php";
 
-function routerInterceptor_Manage($qs_action)
+function routerInterceptor_Account($qs_action)
 {
     switch ($qs_action) {
         case "create":
@@ -92,13 +92,11 @@ function home()
         if ($pp) {
             $pp_path = getPublicUserFolderOf($curUser) . $pp;
         }
-
-        $dd_folders = array_keys(availableDownloads());
     }
 
     //title
     $title = $iul ? "e_log_manage" : "e_log_home";
-    setTitle(i18n($title));
+    setTitle(__($title));
 
     injectAndDisplayIntoAdminLayout("layout/admin/components/home.php", get_defined_vars());
 }
@@ -137,17 +135,25 @@ function disconnect()
 
 function login(&$login_result = null)
 {
+    //
+    if (!$_POST) {
+        return;
+    }
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    if ($_POST) {
-        $login_result = connectAs($_POST['username'], $_POST['password']);
+    //
+    $login_result = connectAs($username, $password);
+    $has_failed = $login_result['isError'];
+    if ($has_failed) {
+        return;
+    }
 
-        if (!$login_result['isError']) {
-            if (isXMLHttpRequest()) {
-                goToLocation("Home");
-            } else {
-                goToLocation("MyLibrary");
-            }
-        }
+    //
+    if (isXMLHttpRequest()) {
+        goToLocation("Home");
+    } else {
+        goToLocation("MyLibrary");
     }
 }
 
@@ -165,20 +171,20 @@ function tryCreatingUser($rules)
         //fields filed
         foreach ($rules as $field => $f_rules) {
             if (empty($field)) {
-                $ret["description"] = i18n("crea_miss_p_u", i18n($field));
+                $ret["description"] = __("crea_miss_p_u", __($field));
                 continue;
             }
         }
 
         // is user already logged
         if (isUserLogged()) {
-            $ret["description"] = i18n("err_nocreate_onlog");
+            $ret["description"] = __("err_nocreate_onlog");
             continue;
         }
 
         //check user asked to create exists
         if (checkUserExists($user, true)) {
-            $ret["description"] = i18n("user_already_exist", $user);
+            $ret["description"] = __("user_already_exist", $user);
             continue;
         }
 
@@ -186,7 +192,7 @@ function tryCreatingUser($rules)
         $isUNOk = null;
         preg_match('/^[a-zA-Z0-9]+([_-]?[a-zA-Z0-9])*$/', $user, $isUNOk);
         if (count($isUNOk) == 0) {
-            $ret["description"] = i18n("username_invalid", $user);
+            $ret["description"] = __("username_invalid", $user);
             continue;
         }
 
@@ -197,9 +203,9 @@ function tryCreatingUser($rules)
             $max = $f_rules['max'];
 
             if ($len < $min || $len > $max) {
-                $ret["description"] = i18n(
+                $ret["description"] = __(
                     "field_nc_pattern",
-                    i18n($field),
+                    __($field),
                     $min,
                     $max
                 );
@@ -247,17 +253,17 @@ function connectAs($user, $passwd)
     $ret = array("isError" => true, "description" => null);
 
     if (empty($user)) {
-        $ret["description"] = i18n("e_log_nouser");
+        $ret["description"] = __("e_log_nouser");
     } elseif (empty($passwd)) {
-        $ret["description"] = i18n("e_nopass");
+        $ret["description"] = __("e_nopass");
     }
     if (isset($_SESSION["loggedAs"]) && $_SESSION["loggedAs"] == $user) {
         $ret["isError"] = false;
-        $ret["description"] = i18n("e_log_identical");
+        $ret["description"] = __("e_log_identical");
     } elseif (UserDb::from($user) == null) {
-        $ret["description"] = i18n("e_unsu", $user);
+        $ret["description"] = __("e_unsu", $user);
     } elseif ($passwd != UserDb::from($user)["password"]) {
-        $ret["description"] = i18n("e_pmm");
+        $ret["description"] = __("e_pmm");
     } else {
         $ret["isError"] = false;
         $_SESSION["loggedAs"] = $user;

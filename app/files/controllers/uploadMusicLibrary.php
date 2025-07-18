@@ -15,7 +15,7 @@ function processUploadedMusicLibrary($qs_user, $expectedFilename)
 
     //check for duplicates
     if (isUselessUpload($pathTo, $expectedFilename)) {
-        exit(i18n("fiNu"));
+        exit(__("fiNu"));
     }
 
     //archive current file if necessary
@@ -51,10 +51,10 @@ function archivePreviousUpload($qs_user, $pathTo)
 
     //archive...
     if (!mkdir(dirname($copyDestination))) {
-        errorOccured(i18n("e_cad"));
+        errorOccured(__("e_cad"));
     }
     if (!copy($pathTo, $copyDestination)) {
-        errorOccured(i18n("e_cufad"));
+        errorOccured(__("e_cufad"));
     }
 }
 
@@ -78,7 +78,7 @@ function routerMiddleware_UploadMusicLibrary($qs_user, $wantsExplicitAccess)
  * if called from API, always expect POST and FILES to be filled
 */
     if ($isAPICall) {
-        errorOccured(i18n("missingArgs"));
+        errorOccured(__("missingArgs"));
     }
 
     // redirect to upload UI if no library for the user OR wanting explicitely this UI

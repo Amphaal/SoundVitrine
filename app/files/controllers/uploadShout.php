@@ -12,7 +12,7 @@ function uploadShout($qs_user)
     uploadFile($whereToUpload, constant("SHOUT_UPLOAD_FILE_NAME"));
 
     //
-    exit(i18n("shouted"));
+    exit(__("shouted"));
 }
 
 function routerInterceptor_uploadShout($qs_user)
@@ -28,6 +28,6 @@ function routerInterceptor_uploadShout($qs_user)
     if (!empty($_POST) && !empty($_FILES)) {
         return uploadShout($qs_user);
     } else {
-        errorOccured(i18n("missingArgs"));
+        errorOccured(__("missingArgs"));
     }
 }

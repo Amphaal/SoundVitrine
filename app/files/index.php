@@ -29,8 +29,7 @@ include "lib/magnifik_input.php";
 
 include "controllers/uploadMusicLibrary.php";
 include "controllers/uploadShout.php";
-include "controllers/manage.php";
-include "controllers/downloadApp.php";
+include "controllers/account.php";
 include "controllers/musicLibrary.php";
 
 function init_app()
@@ -53,15 +52,9 @@ function init_app()
         // should be handled by proxy (WebServices)
         // case 'sentry': {}
 
-        case 'manage': {
+        case 'account': {
             $qs_action = array_shift($qs); // 2nd part of URL
-            return routerInterceptor_Manage($qs_action);
-        }
-        break;
-
-        case 'download': {
-            $qs_action = array_shift($qs); // 2nd part of URL
-            return routerInterceptor_Download($qs_action);
+            return routerInterceptor_Account($qs_action);
         }
         break;
 
@@ -87,6 +80,9 @@ function init_app()
 
                 case 'uploadMusicLibrary':
                 default: {
+                    //
+                    setTitle(__("title_uploadMusicLibrary"));
+
                     // if user has no library
                     routerMiddleware_UploadMusicLibrary($qs_user, $qs_action == 'uploadMusicLibrary');
 
@@ -106,7 +102,7 @@ function init_app()
         case null: {
             // get users so we can display them
             $users = UserDb::all();
-            setTitle(i18n("welcome"));
+            setTitle(__("welcome"));
             injectAndDisplayIntoAdminLayout("layout/admin/components/welcome.php", get_defined_vars());
         }
 

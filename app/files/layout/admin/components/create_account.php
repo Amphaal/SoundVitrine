@@ -1,5 +1,5 @@
 <div id="accountCreation">
-    <h1><?php echo i18n("e_log_createAccount")?></h1>
+    <h1><?php echo __("e_log_createAccount") ?></h1>
     <?php mayDisplayPopup($acr); ?>
     <form class="loginRack" method="POST" autocomplete="off" action="<?php echo $_SERVER["REQUEST_URI"] ?>">
         <?php echo renderMagnifikInput(
@@ -10,7 +10,7 @@
             "autocomplete" => "username"
             ),
             $rules
-        )?>    
+        ) ?>    
         <?php echo renderMagnifikInput(
             array(
             "type" => "password",
@@ -19,19 +19,19 @@
             "autocomplete" => "current-password"
             ),
             $rules
-        )?>    
+        ) ?>    
         <?php echo renderMagnifikInput(
             array(
             "type" => "email",
             "placeholder" => "e_log_email",
             "required" => true
             )
-        )?>
+        ) ?>
         <input
             class="hype"
             type="submit" 
-            value="✓ <?php echo i18n("validate")?>"
-            title="<?php echo i18n("e_log_createAccount")?>"
+            value="✓ <?php echo __("validate") ?>"
+            title="<?php echo __("e_log_createAccount") ?>"
         />
     </form>
 </div>

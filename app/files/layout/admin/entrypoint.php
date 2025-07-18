@@ -10,6 +10,6 @@
         <div id="mainFrame">
             <?php require $inside_part; ?>
         </div>
-        <?php require  "layout/_any/footer.php" ?>
+        <?php require "layout/_any/footer.php" ?>
     </body>
 </html>
