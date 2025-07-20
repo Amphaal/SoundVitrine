@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'uploadWithCompanionApp' => 'Upload via companion app',
     'or' => 'or',
     'project_shorthand_descr' => 'Share your iTunes library %s and broadcast what you are listening to live !',
@@ -87,4 +87,4 @@ return array(
     "lang_fr" => "French",
     //
     "title_uploadMusicLibrary" => "Upload your library"
-);
+];

@@ -101,10 +101,10 @@ class _AbstractUsersDatabase
 //
 class UserDb
 {
-    private static $_private_fields = array(
+    private static $_private_fields = [
         "password" => null,
         "email" => null
-    );
+    ];
 
     private static function _stripPrivate($data)
     {
@@ -126,7 +126,7 @@ class UserDb
         $allUsers = self::all();
 
         //from base data
-        $base = array_key_exists($targetUser, $allUsers) ? $allUsers[$targetUser] : array();
+        $base = array_key_exists($targetUser, $allUsers) ? $allUsers[$targetUser] : [];
         $new_data = array_merge($base, $new_data); //merge
 
         //apply

@@ -3,8 +3,8 @@
 /** */
 function renderMagnifikInput($params, $rules = null)
 {
-    $newInput = array();
-    $newContainer = array();
+    $newInput = [];
+    $newContainer = [];
     $descr = "";
 
     $toPh = function ($val) {
@@ -20,7 +20,7 @@ function renderMagnifikInput($params, $rules = null)
     }
 
     //autoset name depending on type
-    if (in_array($params['type'], array("password", "email"))) {
+    if (in_array($params['type'], ["password", "email"])) {
         $params["name"] = $params["type"];
     }
 

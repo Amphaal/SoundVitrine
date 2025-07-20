@@ -31,6 +31,7 @@ include "controllers/uploadMusicLibrary.php";
 include "controllers/uploadShout.php";
 include "controllers/account.php";
 include "controllers/musicLibrary.php";
+include "controllers/sseMock.php";
 
 function init_app()
 {
@@ -51,6 +52,25 @@ function init_app()
 
         // should be handled by proxy (WebServices)
         // case 'sentry': {}
+
+        case 'mock': {
+            if (ALLOW_SSE_TESTING == false) {
+                http_response_code(403);
+                echo "Mock testing is disabled.";
+                exit;
+            }
+
+            //
+            $qs_target = array_shift($qs); // 2nd part of URL
+
+            //
+            switch ($qs_target) {
+                case 'sse': {
+                    $qs_action = array_shift($qs); // 3rd part of URL
+                    return routerInterceptor_sseMocking($qs_action);
+                }
+            }
+        }
 
         case 'account': {
             $qs_action = array_shift($qs); // 2nd part of URL

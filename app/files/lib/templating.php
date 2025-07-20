@@ -20,7 +20,7 @@ function getFilesInFolder($path_to)
     $maybeFiles = scandir($path_to);
 
     // removes ., ..
-    $maybeFiles = array_diff($maybeFiles, array('..', '.'));
+    $maybeFiles = array_diff($maybeFiles, ['..', '.']);
     $files = [];
 
     foreach ($maybeFiles as $maybeFile) {

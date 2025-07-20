@@ -30,7 +30,7 @@ function BackgroundBand()
         return;
     }
 
-    UserDb::update(array("customColors" => $newColors));
+    UserDb::update(["customColors" => $newColors]);
     echo "OK";
     return;
 }
@@ -79,7 +79,7 @@ function home()
     $iul = isUserLogged();
     $mylib_loc = getLocation("MyLibrary");
     $is_not_my_lib = true;
-    $dd_folders = array();
+    $dd_folders = [];
 
     //if user is logged...
     if ($iul) {
@@ -160,7 +160,7 @@ function login(&$login_result = null)
 function tryCreatingUser($rules)
 {
 
-    $ret = array("description" => null);
+    $ret = ["description" => null];
 
     $user = $_POST['username'];
     $passwd = $_POST['password'];
@@ -225,11 +225,11 @@ function tryCreatingUser($rules)
 
     //else create account
     UserDb::update(
-        array(
-        "password" => $passwd,
-        "email" => $_POST['email'],
-        "customColors" => randomizeBannerColors()
-        ),
+        [
+            "password" => $passwd,
+            "email" => $_POST['email'],
+            "customColors" => randomizeBannerColors()
+        ],
         $user
     );
 
@@ -244,13 +244,13 @@ function randomizeBannerColors()
         };
         return "#" . $getRandColorGroup() . $getRandColorGroup() . $getRandColorGroup();
     };
-    return array($getRandColorHex(), $getRandColorHex(), $getRandColorHex(), $getRandColorHex());
+    return [$getRandColorHex(), $getRandColorHex(), $getRandColorHex(), $getRandColorHex()];
 }
 
 
 function connectAs($user, $passwd)
 {
-    $ret = array("isError" => true, "description" => null);
+    $ret = ["isError" => true, "description" => null];
 
     if (empty($user)) {
         $ret["description"] = __("e_log_nouser");

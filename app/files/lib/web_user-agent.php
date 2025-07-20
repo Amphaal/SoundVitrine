@@ -7,12 +7,12 @@
 function getOS()
 {
 
-    $os_array = array(
+    $os_array = [
         '/mac/i' =>  'Mac',
         '/win/i' =>  'Windows',
         '/ip/i' =>  'iOS',
         '/android/i' =>  'Android'
-    );
+    ];
 
     foreach ($os_array as $regex => $value) {
         if (preg_match($regex, $_SERVER['HTTP_USER_AGENT'])) {
@@ -23,10 +23,10 @@ function getOS()
     return null;
 }
 
-$_DF_OS = array(
+$_DF_OS = [
     "osx" => "Mac",
     "win" => "Windows"
-);
+];
 
 $_OS_DF = array_flip($_DF_OS);
 

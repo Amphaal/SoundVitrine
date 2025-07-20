@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'uploadWithCompanionApp' => "Envoi via l'application compagnon",
     'or' => 'ou',
     'project_shorthand_descr' => 'Partagez votre librarie iTunes %s et diffusez ce que vous écoutez en live !',
@@ -87,4 +87,4 @@ return array(
     "lang_fr" => "Français",
     //
     "title_uploadMusicLibrary" => "Téléverser votre librairie"
-);
+];

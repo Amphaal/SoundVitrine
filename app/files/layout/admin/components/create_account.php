@@ -3,29 +3,29 @@
     <?php mayDisplayPopup($acr); ?>
     <form class="loginRack" method="POST" autocomplete="off" action="<?php echo $_SERVER["REQUEST_URI"] ?>">
         <?php echo renderMagnifikInput(
-            array(
+            [
             "name" => "username",
             "placeholder" => "e_log_username",
             "required" => true,
             "autocomplete" => "username"
-            ),
+            ],
             $rules
         ) ?>    
         <?php echo renderMagnifikInput(
-            array(
+            [
             "type" => "password",
             "placeholder" => "userPwd",
             "required" => true,
             "autocomplete" => "current-password"
-            ),
+            ],
             $rules
         ) ?>    
         <?php echo renderMagnifikInput(
-            array(
+            [
             "type" => "email",
             "placeholder" => "e_log_email",
             "required" => true
-            )
+            ]
         ) ?>
         <input
             class="hype"

@@ -15,6 +15,7 @@ services:
       SERVER_NAME: "" # "empty" so we can debug it on all local loops (127.0.0.1, localhost, 0.0.0.0)
       MERCURE_PUBLISHER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
       MERCURE_SUBSCRIBER_JWT_KEY: "!ChangeThisMercureHubJWTSecretKey!"
+      ALLOW_SSE_TESTING: "1"
     develop:
       watch:
         - action: sync+restart

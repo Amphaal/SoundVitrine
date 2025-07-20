@@ -48,7 +48,7 @@ define("SHOUT_SERVICE_WEBSOCKET_ROOT_HOST", $_SERVER["HTTP_HOST"] . "/sentry");
 /**
  * since theses colors can be customized by user
 */
-define("DEFAULT_BACKGROUND_COLORS", array("#EE7752", "#E73C7E", "#23A6D5", "#23D5AB"));
+define("DEFAULT_BACKGROUND_COLORS", ["#EE7752", "#E73C7E", "#23A6D5", "#23D5AB"]);
 
 /**
  * where to store state files on filesystem
@@ -62,6 +62,14 @@ define("USER_DB_FILE_PATH", constant("STATE_FOLDER_PATH") . "/users.json");
 
 /** */
 define("COMPANION_APP_GITHUB_LATEST_RELEASE_URL", "https://github.com/Amphaal/SoundBuddy/releases/latest");
+
+/** */
+define("ALLOW_SSE_TESTING", (bool)getenv("ALLOW_SSE_TESTING"));
+define("MERCURE_PATH", "/.well-known/mercure");
+define("MERCURE_LOCAL_URL", "http://localhost" . MERCURE_PATH);
+
+// printf template; first "%s" is userToSubscribeTo
+define("SHOUT_URI_TEMPLATE", "com.amphaal.soundvitrine/shouts/user/%s");
 
 //
 //

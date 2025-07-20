@@ -47,7 +47,7 @@ function checkPOSTedUserPassword($of_user)
 
 function setMyProfilePicture($ppFilename)
 {
-    UserDb::update(array("profilePic" => $ppFilename));
+    UserDb::update(["profilePic" => $ppFilename]);
 }
 
 function getProfilePicture($user)
