@@ -16,7 +16,7 @@
         </a>
     </div>
     <div style="background-color: transparent; font-size: .6em">
-        <a href="/account"><i class="fas fa-user-circle" style="margin-right: .25em;"></i>Mon compte</a>
+        <a href="/account"><i class="fas fa-user-circle" style="margin-right: .25em;"></i><?= __("my_account") ?></a>
     </div>
     <div id="langs">
         <?php

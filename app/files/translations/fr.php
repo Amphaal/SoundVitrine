@@ -82,6 +82,7 @@ return [
     "cancel" => "Annuler",
     "validate" => "Valider",
     "back" => "Retour",
+    "my_account" => "Mon compte",
     //
     "lang_en" => "Anglais",
     "lang_fr" => "Français",

@@ -17,6 +17,8 @@
 
 {$CADDY_EXTRA_CONFIG}
 
+# ":80", so it disables Caddy auto-HTTPS feature;
+# HTTPS must then be handled at edge by a proxy in front of it (Nginx, traefik...)
 {$SERVER_NAME:localhost}:80 {
 	#log {
 	#	# Redact the authorization query parameter that can be set by Mercure

@@ -17,7 +17,9 @@ class I18nHandler
     private static function _deduceUsedLanguage()
     {
 
-        $cli_lang = Locale::getPrimaryLanguage($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?? null;
+        $cli_lang = array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER) ?
+            Locale::getPrimaryLanguage($_SERVER['HTTP_ACCEPT_LANGUAGE']) :
+            null;
         $post_lang = $_POST['set_lang'] ?? null;
         if ($post_lang) {
             unset($_POST['set_lang']);

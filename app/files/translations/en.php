@@ -82,6 +82,7 @@ return [
     "cancel" => "Cancel",
     "validate" => "Validate",
     "back" => "Back",
+    "my_account" => "My Account",
     //
     "lang_en" => "English",
     "lang_fr" => "French",
