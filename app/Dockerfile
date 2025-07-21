@@ -5,7 +5,7 @@ RUN install-php-extensions \
 	intl
 
 # Disables Caddy auto-HTTPS feature, HTTPS must be handled at edge by Traefik or another proxy in front of it
-ENV SERVER_NAME=":80"
+ENV SERVER_NAME=""
 
 #
 FROM base AS base-xdebug
