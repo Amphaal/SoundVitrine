@@ -90,7 +90,7 @@ function instShoutMuteButton() {
         icon.classList.add('fa-bell-slash');
         icon.setAttribute('title', icon.getAttribute("title-on"));
     } else {
-        notificationShoutSound.volume = .05;
+        notificationShoutSound.volume = .5;
         icon.classList.remove('fa-bell-slash');
         icon.classList.add('fa-bell');
         icon.setAttribute('title', icon.getAttribute("title-off"));
@@ -125,7 +125,7 @@ function _isInClientViewField(elem) {
  *  year: number
  * }} newShoutData 
  */
-function onReceivedShout(newShoutData) {
+async function onReceivedShout(newShoutData) {
 
     //update current shout
     _currentShoutDWorth = isWorthDisplayingShout(newShoutData);
@@ -138,68 +138,74 @@ function onReceivedShout(newShoutData) {
     );
 
     
-    //preapre
+    // fetch elements
     let shoutContainer = document.getElementById('shoutContainer');
     let notif = document.getElementById('shoutNotification');
+    if (!shoutContainer || !notif) { return; }
 
-    //anticipate next action
-    const afterNotificationPanelShown = function() {
-        return new Promise(function(resolve) {
-            toggleShout().then(function() {
-
-                _updateShoutDisplayableData(newShoutData, changes);
-        
-                //update values
-                _currentShout = newShoutData;
-
-                //notif if scrolled
-                if (!_isInClientViewField(shoutContainer)) {
-        
-                    //force refresh anim
-                    let out = document.getElementById('shoutNotificationWidget');
-                    window.requestAnimationFrame(function() {
-                        out.classList.remove('show');
-                        void out.offsetWidth;
-                        out.classList.add('show');
-                    });
-                }
-                //display main notif frame
-                if (isHardChange) window.requestAnimationFrame(function() {
-                    /** CHROME API */
-                    const hasUserBeenActive = navigator.userActivation != null && navigator.userActivation.hasBeenActive;
-
-                    /** FIREFOX API */
-                    const isAllowedToPlayByPolicy = navigator.getAutoplayPolicy != null && navigator.getAutoplayPolicy(notificationShoutSound) === "allowed";
-                    if (hasUserBeenActive || isAllowedToPlayByPolicy) {
-                        //play sound
-                        notificationShoutSound.play().then(null, function(_) {
-                            /* expected on Chrome */
-                        });
-                    }
-                    
-                    //display
-                    notif.classList.add('fade');
-                });
-
-                resolve();
-            });
-        });
-    }
 
     //if shouts are already kicking in > trigger notif before re-toggling
     let isShoutContainerRefreshingContent = shoutContainer.clientHeight > 0;
     if (isShoutContainerRefreshingContent && notif.classList.contains('fade') && isHardChange) {
-
-        waitTransitionEnd(notif, function() {
+        await waitTransitionEnd(notif, function() {
             notif.classList.remove('fade');
-        }).then(afterNotificationPanelShown());
-
-    } else {
-
-        afterNotificationPanelShown();
-
+        });
     }
+    
+    await toggleShout();
 
+    _updateShoutDisplayableData(newShoutData, changes);
+
+    //update values
+    _currentShout = newShoutData;
+
+
+    //display main notif frame
+    if (isHardChange) {
+
+        // if main shout display is out of frame, also display a small floating widget
+        if (!_isInClientViewField(shoutContainer)) {
+            displayBrieflyNotificationWidget();
+        }
+
+        //
+        window.requestAnimationFrame(function() {
+            //
+            mayTriggerNotificationSound();
+            
+            // display
+            notif.classList.add('fade');
+        });
+    }
+}
+
+function displayBrieflyNotificationWidget() {
+    // get widget
+    const widget = document.getElementById('shoutNotificationWidget');
+    if(!widget) { return; }
+
+    // animate
+    window.requestAnimationFrame(function() {
+        widget.classList.remove('show');
+        void widget.offsetWidth;
+        widget.classList.add('show');
+    });
+}
+
+function mayTriggerNotificationSound() {
+    /** CHROME API */
+    const hasUserBeenActive = navigator.userActivation != null && navigator.userActivation.hasBeenActive;
+
+    /** FIREFOX API */
+    const isAllowedToPlayByPolicy = navigator.getAutoplayPolicy != null && navigator.getAutoplayPolicy(notificationShoutSound) === "allowed";
+    
+    // check
+    if (hasUserBeenActive || isAllowedToPlayByPolicy) {
+        //play sound
+        notificationShoutSound.play().then(null, function(_) {
+            /* expected on Chrome */
+        });
+    }
 }
 
 //list changes between states
