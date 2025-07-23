@@ -41,11 +41,6 @@ define("WEB_APP_ROOT", "/");
 define("WEB_APP_ROOT_FULLPATH", ($_SERVER["REQUEST_SCHEME"] ?: 'http') . "://" . $_SERVER["HTTP_HOST"] . constant("WEB_APP_ROOT"));
 
 /**
- * use WSS in production environment
-*/
-define("SHOUT_SERVICE_WEBSOCKET_ROOT_HOST", $_SERVER["HTTP_HOST"] . "/sentry");
-
-/**
  * since theses colors can be customized by user
 */
 define("DEFAULT_BACKGROUND_COLORS", ["#EE7752", "#E73C7E", "#23A6D5", "#23D5AB"]);
@@ -53,7 +48,7 @@ define("DEFAULT_BACKGROUND_COLORS", ["#EE7752", "#E73C7E", "#23A6D5", "#23D5AB"]
 /**
  * where to store state files on filesystem
 */
-define("STATE_FOLDER_PATH", getenv("SOUNDVITRINE_STATE_PATH") ?: "/app/_state");
+define("STATE_FOLDER_PATH", getenv("SOUNDVITRINE_STATE_PATH"));
 
 /**
  * internal folder path of user's data
@@ -69,7 +64,7 @@ define("MERCURE_PATH", "/.well-known/mercure");
 define("MERCURE_LOCAL_URL", "http://localhost" . MERCURE_PATH);
 
 // printf template; first "%s" is userToSubscribeTo
-define("SHOUT_URI_TEMPLATE", "com.amphaal.soundvitrine/shouts/user/%s");
+define("SHOUT_SSE_TOPIC_URI_TEMPLATE", "com.amphaal.soundvitrine/shouts/user/%s");
 
 //
 //

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo I18nSingleton::getInstance()->getLang() ?>">
+<html lang="<?=I18nSingleton::getInstance()->getLang() ?>">
     <head>
         <script>
             
@@ -7,7 +7,7 @@
              * @param {string} userToSendEventTo
              */
             const sendEvent = async (userToSendEventTo) => {
-                const response = await fetch("<?= $_SERVER["REQUEST_URI"] ?>/send", {
+                const response = await fetch("<?=$_SERVER["REQUEST_URI"] ?>/send", {
                     method: "POST", 
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
@@ -21,8 +21,9 @@
              */
             const subscribeSSE = (userToSubscribeTo) => {
                 const url = new URL(window.location.href);
-                url.pathname = "<?= MERCURE_PATH ?>";
-                url.searchParams.append("topic", "<?= SHOUT_URI_TEMPLATE ?>".replace("%s", userToSubscribeTo));
+                url.pathname = "<?=MERCURE_PATH ?>";
+                url.searchParams.append("topic", "<?=SHOUT_SSE_TOPIC_URI_TEMPLATE ?>".replace("%s", userToSubscribeTo));
+                url.searchParams.append('authorization', <?=json_encode($sub_token) ?>);
                 return new EventSource(url);
             }
 

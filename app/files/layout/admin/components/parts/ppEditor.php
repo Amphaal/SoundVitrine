@@ -1,4 +1,4 @@
-<span id="ProfilePicEditor" title="<?= __("updateProfilePic") ?>">
+<span id="ProfilePicEditor" title="<?=__("updateProfilePic") ?>">
     <input class="PPPicker" type="file" name="profile_pic" accept="image/*">
     <div class="imgHolder">
         <i class="fas fa-user ph"></i>

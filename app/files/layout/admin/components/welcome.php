@@ -27,25 +27,25 @@
 </style>
 <div style="display:flex; align-items:center; flex-direction: column; width: 100wv">
     <img src="/public/images/ico.png" width="50%"/>
-    <h1 style="margin-bottom: 0; text-align: center"><?php echo __("thisis") ?></h1>
+    <h1 style="margin-bottom: 0; text-align: center"><?=__("thisis") ?></h1>
     <div style="font-size: .75em; color: #3b3b3b; text-align: center">
-        <?php echo __("project_shorthand_descr", '<img src="/public/images/itunes.png" width="24px" style="margin: 0 .2em; vertical-align: bottom;" />') ?>
+        <?=__("project_shorthand_descr", '<img src="/public/images/itunes.png" width="24px" style="margin: 0 .2em; vertical-align: bottom;" />') ?>
     </div>
     <br/>
     <div id="intro-users-descr">
         <?php foreach ($users as $username => $data) { ?>
-            <a href="/u/<?php echo $username ?>">
+            <a href="/u/<?=$username ?>">
                 <div class="user">
                     <?php
                     $hasProfilePicture = $data["profilePic"] ?? null;
                     if ($hasProfilePicture != null) {
                         $expectedProfilePic = getPublicUserFolderOf($username) . $hasProfilePicture;
                         ?>
-                        <img  style="max-height: 1.5em; max-width: 1.5em" src="<?php echo $expectedProfilePic ?>">
+                        <img  style="max-height: 1.5em; max-width: 1.5em" src="<?=$expectedProfilePic ?>">
                     <?php } else {?>
                         <i class="fas fa-user"></i>
                     <?php } ?>
-                    <span><?php echo $username ?></span>
+                    <span><?=$username ?></span>
                     <i class="fa-solid fa-up-right-from-square" style="font-size: .6em"></i>
                 </div>
             </a>
@@ -58,7 +58,7 @@
                 style="background-color: #23df0d54; box-shadow: 0px 0px 20px 0px white; color: #245724; border: 1px solid #76cd8c;"
             >
                 <i class="fa-solid fa-plus"></i>
-                <span><?php echo __("log_createAccount") ?></span>
+                <span><?=__("log_createAccount") ?></span>
             </div>
         </a>
     </div>

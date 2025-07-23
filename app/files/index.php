@@ -26,6 +26,7 @@ include "lib/templating.shards.php";
 include "lib/file_uploading.php";
 include "lib/http.php";
 include "lib/magnifik_input.php";
+include "lib/sse.php";
 
 include "controllers/uploadMusicLibrary.php";
 include "controllers/uploadShout.php";

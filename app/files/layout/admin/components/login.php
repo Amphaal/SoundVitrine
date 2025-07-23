@@ -1,7 +1,7 @@
-<h1><?php echo __("e_log_connect") ?></h1>
+<h1><?=__("e_log_connect") ?></h1>
 <?php mayDisplayPopup($login_result); ?>
-<form method="POST" action="<?php echo $_SERVER["REQUEST_URI"] ?>">
-    <?php echo renderMagnifikInput(
+<form method="POST" action="<?=$_SERVER["REQUEST_URI"] ?>">
+    <?=renderMagnifikInput(
         [
         "name" => "username",
         "placeholder" => "e_log_username",
@@ -9,7 +9,7 @@
         "required" => true
         ]
     ) ?>
-    <?php echo renderMagnifikInput(
+    <?=renderMagnifikInput(
         [
         "type" => "password",
         "placeholder" => "userPwd",
@@ -20,7 +20,7 @@
     <input 
         class="hype"
         type="submit" 
-        value="✓ <?php echo __("validate") ?>"
-        title="<?php echo __("e_log_connect") ?>"
+        value="✓ <?=__("validate") ?>"
+        title="<?=__("e_log_connect") ?>"
     />
 </form>

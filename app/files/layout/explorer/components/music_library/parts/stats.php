@@ -3,7 +3,7 @@
         <div class='statsWrapper'>
             <div id='stats'>
                 <div class='statsPh' id='statsAlbums' data-phid='0' data-def="Albums"></div>
-                <div class='statsPh' id='statsArtists' data-phid='1' data-def="<?php echo __("artists") ?>"></div>
+                <div class='statsPh' id='statsArtists' data-phid='1' data-def="<?=__("artists") ?>"></div>
             </div>
             <div id='statsSwitcher'>
                 <div>
@@ -14,10 +14,10 @@
                     </label>
                 </div>
                 <div>
-                    <label class="clickable" title='<?php echo __("artists") ?>'>
+                    <label class="clickable" title='<?=__("artists") ?>'>
                         <input id='rArtists' data-phid='1' type='radio' name='statsS' onchange="switchPanel(event)" autocomplete="off">
                         <i class="fas fa-users"></i>
-                        <span><?php echo __("artists") ?></span>
+                        <span><?=__("artists") ?></span>
                     </label>
                 </div>
             </div>

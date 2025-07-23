@@ -1,9 +1,9 @@
-<div id="bBandEditor" title="<?php echo __("updateBBand") ?>">
-    <?php echo _wAnim(getCurrentUserLogged()) ?>
+<div id="bBandEditor" title="<?=__("updateBBand") ?>">
+    <?=_wAnim(getCurrentUserLogged()) ?>
     <div class="colorPicker">
         <div class="controls">
-            <input class="cancel" type="button" value="✕" title="<?php echo __("cancel") ?>"/>
-            <input class="validate" type="button" value="✓" title="<?php echo __("validate") ?>"/>
+            <input class="cancel" type="button" value="✕" title="<?=__("cancel") ?>"/>
+            <input class="validate" type="button" value="✓" title="<?=__("validate") ?>"/>
         </div>
         <div class="colors">
             <input id="color1" type="color" title="" />

@@ -43,20 +43,7 @@ function getSiblings(elem) {
 
 };
 
-//ucwords()
-function titleCase(str) {
-    let splitStr = str.toLowerCase().split(' ');
-    for (let i = 0; i < splitStr.length; i++) {
-        // You do not need to check if i is larger than splitStr length, as your for does that for you
-        // Assign it back to the array
-        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    }
-    // Directly return the joined string
-    return splitStr.join(' ');
-}
-
-//detect transition handler
-function _whichTransitionEndEvent() {
+const transitionEndEventName = (() => {
     var el = document.createElement('fakeelement');
     var transitions = {
         'transition': 'transitionend',
@@ -70,9 +57,8 @@ function _whichTransitionEndEvent() {
             return transitions[t];
         }
     }
-}
-
-function _whichAnimationEndEvent() {
+})();
+const animationEndEventName = (() => {
     var t,
         el = document.createElement("fakeelement");
     var animations = {
@@ -86,30 +72,39 @@ function _whichAnimationEndEvent() {
             return animations[t];
         }
     }
-}
+})();
 
 var _waiterStack = {};
-function _waitEventEnd(eventTypeToListen, waiter, action, targetPseudoElem) {
+
+/**
+ * 
+ * @param {string} eventNameToListen name of the event to listen to
+ * @param {*} eventEmitter 
+ * @param {(eventEmitter: any) => {}} actionThatShouldTriggerEvent 
+ * @param {string | null} targetPseudoElem 
+ * @returns 
+ */
+function _waitEventEnd(eventNameToListen, eventEmitter, actionThatShouldTriggerEvent, targetPseudoElem) {
 
     //if no action, immediate return
-    if (!action) {
+    if (!actionThatShouldTriggerEvent) {
         return Promise.resolve(null);
     }
 
     return new Promise(
         function (resolve) {
 
-            let isAnim = eventTypeToListen.includes("nimation");
-            let newId = String(Date.now()) + '_' + String(Math.round(Math.random() * 100)) + '_' + String(waiter.id);
-            let waiterStyle = window.getComputedStyle(waiter, null);
-            let pseudoStyle = window.getComputedStyle(waiter, targetPseudoElem);
+            let isAnim = eventNameToListen.includes("nimation");
+            let newId = String(Date.now()) + '_' + String(Math.round(Math.random() * 100)) + '_' + String(eventEmitter.id);
+            let waiterStyle = window.getComputedStyle(eventEmitter, null);
+            let pseudoStyle = window.getComputedStyle(eventEmitter, targetPseudoElem);
             let eventsToExpect = isAnim ? pseudoStyle["animation-name"].split(",")
                 : pseudoStyle["transition-property"].split(",");
 
 
             if (isAnim && (waiterStyle["display"] == "none" || pseudoStyle["display"] == "none")) {
                 //animationEnd will never be triggered, resolve...
-                return resolve(waiter);
+                return resolve(eventEmitter);
             }
 
             _waiterStack[newId] = {
@@ -123,26 +118,27 @@ function _waitEventEnd(eventTypeToListen, waiter, action, targetPseudoElem) {
                     //if count... disengage
                     if (_waiterStack[newId].eventEndHits.length == _waiterStack[newId].expectedEvents.length) {
 
-                        waiter.removeEventListener(eventTypeToListen, _waiterStack[newId].onEventEnd); //console.log("out", waiter);
+                        eventEmitter.removeEventListener(eventNameToListen, _waiterStack[newId].onEventEnd); //console.log("out", eventEmitter);
                         delete _waiterStack[newId];
-                        return resolve(waiter);
+                        return resolve(eventEmitter);
                     }
                 }
             };
 
-            waiter.addEventListener(eventTypeToListen, _waiterStack[newId].onEventEnd); //console.log("in", waiter);
+            eventEmitter.addEventListener(eventNameToListen, _waiterStack[newId].onEventEnd); //console.log("in", eventEmitter);
 
-            action(waiter);
+            // execute the action
+            actionThatShouldTriggerEvent(eventEmitter);
         }
     );
 }
 
-function waitAnimationEnd(waiter, action, targetPseudoElem) {
-    return _waitEventEnd(_whichAnimationEndEvent(), waiter, action, targetPseudoElem);
+function waitAnimationEnd(eventEmitter, action, targetPseudoElem) {
+    return _waitEventEnd(animationEndEventName, eventEmitter, action, targetPseudoElem);
 }
 
-function waitTransitionEnd(waiter, action, targetPseudoElem) {
-    return _waitEventEnd(_whichTransitionEndEvent(), waiter, action, targetPseudoElem);
+function waitTransitionEnd(eventEmitter, action, targetPseudoElem) {
+    return _waitEventEnd(transitionEndEventName, eventEmitter, action, targetPseudoElem);
 }
 
 function debounce(callback, delay) {
@@ -157,29 +153,6 @@ function debounce(callback, delay) {
             }, delay
         )
     }
-}
-
-
-function ezPOST(data) {
-    let form = document.createElement("form");
-    form.setAttribute("method", "POST");
-
-    Object.keys(data).map(
-        function (key) {
-            let iElem = document.createElement('input');
-            iElem.setAttribute("type", "hidden");
-            iElem.setAttribute("name", key);
-            iElem.setAttribute("value", data[key]);
-            return iElem;
-        }
-    ).forEach(
-        function (item) {
-            form.appendChild(item);
-        }
-    );
-
-    document.body.appendChild(form);
-    form.submit();
 }
 
 function IsJsonString(str) {
@@ -202,7 +175,7 @@ function compareDateFromNomHumanized(strISO8601, dateNow) {
 
 /**
  * 
- * @param   {string} dateFrom should be UTC+0 ISO string representation of when the shout was done at last
+ * @param {string} dateFrom should be UTC+0 ISO string representation of when the shout was done at last
  * @returns 
  */
 function calculateSecondsElapsed(dateFrom) {

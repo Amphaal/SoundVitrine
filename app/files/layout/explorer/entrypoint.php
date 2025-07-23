@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo I18nSingleton::getInstance()->getLang() ?>">
+<html lang="<?=I18nSingleton::getInstance()->getLang() ?>">
     <head>
         <?php require "layout/_any/metadata.php" ?>
 
@@ -41,7 +41,7 @@
                * 2b. Profile specific CSS
                */ ?>
         <style>
-            <?php echo cbacToCss($qs_user, UserDb::fromProtected($qs_user)["customColors"]) ?>
+            <?=cbacToCss($qs_user, UserDb::fromProtected($qs_user)["customColors"]) ?>
         </style>
     </head>
     <body>

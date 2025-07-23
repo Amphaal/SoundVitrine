@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<?php echo I18nSingleton::getInstance()->getLang() ?>">
+<html lang="<?=I18nSingleton::getInstance()->getLang() ?>">
     <head>
         <?php require "layout/_any/metadata.php" ?>
         <?php require "layout/admin/compiled.js-ext.php" ?>

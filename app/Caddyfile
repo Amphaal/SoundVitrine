@@ -51,6 +51,12 @@
 		Pragma "public"
 	}
 
+	# serve user specific, non-sensitive files
+	handle_path /data/users/* {
+		root * {env.SOUNDVITRINE_STATE_PATH}/users
+		file_server
+	}
+
 	# Uncomment the following lines to enable Mercure and Vulcain modules
 	mercure {
 		# Transport to use (default to Bolt)
@@ -60,9 +66,9 @@
 		# Subscriber JWT key
 		subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
 		# Allow anonymous subscribers (double-check that it's what you want)
-		anonymous
+		# anonymous
 		# Enable the subscription API (double-check that it's what you want)
-		subscriptions
+		# subscriptions
 		# Extra directives
 		{$MERCURE_EXTRA_DIRECTIVES}
 	}

@@ -26,6 +26,9 @@ COPY ./files /app/public
 COPY --from=vendor-builder /app/vendor /app/public/vendor
 COPY ./Caddyfile /etc/frankenphp/Caddyfile
 
+# can be overriden
+ENV SOUNDVITRINE_STATE_PATH="/app/_state"
+
 ##
 ##
 ##

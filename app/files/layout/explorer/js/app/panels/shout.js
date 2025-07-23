@@ -1,94 +1,41 @@
-/** @type {WebSocket} */
-var socket = null;
-var hbEmitter = null;
+/** @type {EventSource} */
+var shoutES = null;
 
-/**
- * 
- * @param {WebSocket} socket 
- */
-function doWSPing(socket) {
-    console.log("Ping...");
-    socket?.send(JSON.stringify({id: 'ping', r: ''}));
+function getSSEShoutUrl() {
+    const url = new URL(window.location.href);
+    url.pathname = ssePathEndpoint;
+    url.searchParams.append("topic", sseShoutTopic);
+    url.searchParams.append('authorization', sseJwt);
+    return url;
 }
 
 //
-function createWebSocketForShouts() {
+function setupLiveUpdatesForShouts() {
     //
-    const socketServerUrl = "ws" + (location.protocol === 'https:' ? 's' : '') + '://' + sioURL + "/" + libraryUser + "/shout";
-    socket = new WebSocket(socketServerUrl);
-    console.log("Initialization of WebSockets client on", socketServerUrl, "...");
+    shoutES = new EventSource(getSSEShoutUrl());
 
     /**
      * 
      * @param {MessageEvent} event 
      */
     const onMessage = (event) => {
-        const payload = JSON.parse(event.data);
-        switch (payload.id) {
-            //
-            case "newShout": {
-                console.log('Received shout update ! Handling...');
-                onReceivedShout(JSON.parse(payload.r));
-            }
-            break;
-
-            //
-            case "pong": {
-                console.log('...Pong !');
-            }
-            break;
-        }
-    };
-
-    /** */
-    const onOpen = () => {
-        //
-        doWSPing(socket);
-
-        //
-        hbEmitter = setInterval(() => {
-            doWSPing(socket);
-        }, 30000);
-
-        //
-        console.log("Web socket opened !");
-    };
-
-    /** */
-    const onError = () => {
-        console.log("Web socket failed.");
-    };
-
-    /** */
-    const onClose = () => {
-        if (hbEmitter != null) {
-            clearInterval(hbEmitter);
-            hbEmitter = null;
-        }
-
-        console.log("Web socket closed...");
-
-        //
-        //
-        //
-
-        socket.removeEventListener("message", onMessage);
-        socket.removeEventListener("open", onOpen);
-        socket.removeEventListener("error", onError);
-        socket.removeEventListener("close", onClose);
-
-        // reconnect after 1s
-        setTimeout(createWebSocketForShouts, 1000);
+        const shout = JSON.parse(event.data);
+        onReceivedShout(shout);
     };
 
     //
-    socket.addEventListener("message", onMessage);
-    socket.addEventListener("open", onOpen);
-    socket.addEventListener("error", onError);
-    socket.addEventListener("close", onClose);
+    shoutES.addEventListener("message", onMessage);
 
+    //
+    fetch(clientURLShout).then(async e => {
+        const shout = await e.json();
+        onReceivedShout(shout);
+    });
 }
 
+//
+//
+//
 
 /**
  * Depending on shout timestamp, determines if it is meaningful or not to update any informations on UI relative to its update
@@ -165,7 +112,18 @@ function _isInClientViewField(elem) {
 
 /**
  * will handle the way to display new shout data
- * @param {object} newShoutData 
+ * @param {{
+ *  album: string
+ *  artist: string
+ *  date: string
+ *  duration: number
+ *  genre: string
+ *  md5: string
+ *  name: string
+ *  playerPosition: number
+ *  playerState: boolean
+ *  year: number
+ * }} newShoutData 
  */
 function onReceivedShout(newShoutData) {
 
@@ -185,7 +143,7 @@ function onReceivedShout(newShoutData) {
     let notif = document.getElementById('shoutNotification');
 
     //anticipate next action
-    let afterNotificationPanelShown = function() {
+    const afterNotificationPanelShown = function() {
         return new Promise(function(resolve) {
             toggleShout().then(function() {
 
