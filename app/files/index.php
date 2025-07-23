@@ -52,6 +52,11 @@ function init_app()
         // should be handled by proxy (database files)
         // case 'data' : {}
 
+        case 'healthz': {
+            echo "OK";
+            exit;
+        }
+
         case 'hb': {
             $qs_action = array_shift($qs); // 2nd part of URL
             return routerInterceptor_heartbeat($qs_action);

@@ -29,6 +29,9 @@ COPY ./Caddyfile /etc/frankenphp/Caddyfile
 # can be overriden
 ENV SOUNDVITRINE_STATE_PATH="/app/_state"
 
+# would otherwise resort to check for Caddy admin API on port "2019", which might be disabled
+HEALTHCHECK CMD curl -f http://localhost/healthz || exit 1
+
 ##
 ##
 ##

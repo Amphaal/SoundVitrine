@@ -13,6 +13,9 @@
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
+
+	# disable admin endpoint ("localhost:2019", requires healthcheck override)
+	admin off
 }
 
 {$CADDY_EXTRA_CONFIG}
@@ -60,7 +63,9 @@
 	# Uncomment the following lines to enable Mercure and Vulcain modules
 	mercure {
 		# Transport to use (default to Bolt)
-		transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
+		transport bolt {
+			path /data/mercure.db
+		}
 		# Publisher JWT key
 		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
 		# Subscriber JWT key
@@ -85,4 +90,4 @@
 # block files in the Caddyfile.d directory, and they will be included as long
 # as they use the .caddyfile extension.
 
-import Caddyfile.d/*.caddyfile
+# import Caddyfile.d/*.caddyfile
