@@ -247,27 +247,56 @@ function randomizeBannerColors()
     return [$getRandColorHex(), $getRandColorHex(), $getRandColorHex(), $getRandColorHex()];
 }
 
-
-function connectAs($user, $passwd)
+/**
+ * @return error_message error message if failed
+ */
+function checkCredentials($username, $passwd): ?string
 {
-    $ret = ["isError" => true, "description" => null];
-
-    if (empty($user)) {
-        $ret["description"] = __("e_log_nouser");
-    } elseif (empty($passwd)) {
-        $ret["description"] = __("e_nopass");
+    if (empty($username)) {
+        return __("e_log_nouser");
     }
-    if (isset($_SESSION["loggedAs"]) && $_SESSION["loggedAs"] == $user) {
-        $ret["isError"] = false;
+
+    if (empty($passwd)) {
+        return __("e_nopass");
+    }
+
+    $user_data = UserDb::from($username);
+    if ($user_data == null) {
+        return __("e_unsu", $username);
+    }
+
+    if ($passwd != $user_data["password"]) {
+        return __("e_pmm");
+    }
+
+    return null;
+}
+
+function connectAs($username, $passwd)
+{
+    // shape expected for response
+    $ret = [
+        "isError" => false,
+        "description" => null, // string
+    ];
+
+    // check if already logged as username
+    if (isset($_SESSION["loggedAs"]) && $_SESSION["loggedAs"] == $username) {
         $ret["description"] = __("e_log_identical");
-    } elseif (UserDb::from($user) == null) {
-        $ret["description"] = __("e_unsu", $user);
-    } elseif ($passwd != UserDb::from($user)["password"]) {
-        $ret["description"] = __("e_pmm");
-    } else {
-        $ret["isError"] = false;
-        $_SESSION["loggedAs"] = $user;
+        return $ret;
     }
 
+    // checking if current credentials throws an error message
+    $err = checkCredentials($username, $passwd);
+    if ($err != null) {
+        $ret["isError"] = true;
+        $ret["description"] = $err;
+        return $ret;
+    }
+
+    // persist login
+    $_SESSION["loggedAs"] = $username;
+
+    //
     return $ret;
 }

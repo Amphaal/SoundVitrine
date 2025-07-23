@@ -32,6 +32,7 @@ include "controllers/uploadShout.php";
 include "controllers/account.php";
 include "controllers/musicLibrary.php";
 include "controllers/sseMock.php";
+include "controllers/heartbeat.php";
 
 function init_app()
 {
@@ -50,8 +51,11 @@ function init_app()
         // should be handled by proxy (database files)
         // case 'data' : {}
 
-        // should be handled by proxy (WebServices)
-        // case 'sentry': {}
+        case 'hb': {
+            $qs_action = array_shift($qs); // 2nd part of URL
+            return routerInterceptor_heartbeat($qs_action);
+        }
+        break;
 
         case 'mock': {
             if (ALLOW_SSE_TESTING == false) {
@@ -69,8 +73,10 @@ function init_app()
                     $qs_action = array_shift($qs); // 3rd part of URL
                     return routerInterceptor_sseMocking($qs_action);
                 }
+                break;
             }
         }
+        break;
 
         case 'account': {
             $qs_action = array_shift($qs); // 2nd part of URL
@@ -114,6 +120,7 @@ function init_app()
                         routerInterceptor_MusicLibrary($qs_user);
                     }
                 }
+                break;
             }
         }
         break;
@@ -125,6 +132,7 @@ function init_app()
             setTitle(__("welcome"));
             injectAndDisplayIntoAdminLayout("layout/admin/components/welcome.php", get_defined_vars());
         }
+        break;
 
         default: {
             /** */
