@@ -28,6 +28,12 @@ function setupLiveUpdatesForShouts() {
 
     //
     fetch(clientURLShout).then(async e => {
+        //
+        if(e.status != 200) {
+            return;
+        }
+
+        //
         const shout = await e.json();
         onReceivedShout(shout);
     });

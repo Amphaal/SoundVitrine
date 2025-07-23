@@ -20,7 +20,7 @@ function routerInterceptor_MusicLibrary($qs_user)
 
     //addons
     setTitle(__('libraryOf', $qs_user));
-    $initialRLoaderUrl = getLocation("Home", true);
+    $initialRLoaderUrl = getLocation("Home");
 
     include "layout/explorer/entrypoint.php";
     exit;

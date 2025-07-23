@@ -37,9 +37,6 @@ define("SHOUT_PROFILE_FILE_NAME", 'shout.json');
 */
 define("WEB_APP_ROOT", "/");
 
-/** */
-define("WEB_APP_ROOT_FULLPATH", ($_SERVER["REQUEST_SCHEME"] ?: 'http') . "://" . $_SERVER["HTTP_HOST"] . constant("WEB_APP_ROOT"));
-
 /**
  * since theses colors can be customized by user
 */

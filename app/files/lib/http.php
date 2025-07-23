@@ -37,9 +37,9 @@ function goToLocation($rq)
     header("Location: " . getLocation($rq));
 }
 
-function getLocation($rq, $abs = null)
+function getLocation($rq)
 {
-    $r = $abs ? constant("WEB_APP_ROOT_FULLPATH") : constant("WEB_APP_ROOT");
+    $r = constant("WEB_APP_ROOT");
 
     switch ($rq) {
         //
