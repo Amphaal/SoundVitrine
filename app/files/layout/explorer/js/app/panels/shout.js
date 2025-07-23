@@ -51,17 +51,17 @@ function isWorthDisplayingShout(shoutData) {
     //
 
     /** @type {number} */
-    const effectiveDuration = shoutData['duration'] ?? 0;
+    const effectiveDurationMS = (shoutData['duration'] ?? 0) * 1_000;
     /** @type {number} */
-    const effectivePlayerPosition = shoutData['playerPosition'] ?? 0;
+    const effectivePlayerPositionMS = shoutData['playerPositionMS'] ?? 0;
 
     //
-    const remainingSecondsBeforeTrackPlayEnds = Math.max(effectiveDuration - effectivePlayerPosition, 0);
+    const remainingMSBeforeTrackPlayEnds = Math.max(effectiveDurationMS - effectivePlayerPositionMS, 0);
 
     /** @type {string} UTC+0 ISO timestamp */
     const shoutTs = shoutData['date'];
-    const secondsElapsedSinceLatestShoutUpdate = calculateSecondsElapsed(shoutTs);
-    const isWorthDisplaying = (remainingSecondsBeforeTrackPlayEnds - secondsElapsedSinceLatestShoutUpdate) > 0;
+    const millisecondsElapsedSinceLatestShoutUpdate = calculateMillisecondsElapsed(shoutTs);
+    const isWorthDisplaying = (remainingMSBeforeTrackPlayEnds - millisecondsElapsedSinceLatestShoutUpdate) > 0;
 
     //
     return isWorthDisplaying;
@@ -277,7 +277,7 @@ function _updateShoutDisplayableData(shoutData, changes) {
     }
 
     //update timeline
-    if (changes.includes('duration') || changes.includes('playerPosition') || changes.includes('playerState') || changes.includes('date')) {
+    if (changes.includes('duration') || changes.includes('playerPositionMS') || changes.includes('playerState') || changes.includes('date')) {
         let aTimeline = document.querySelector('#shoutContainer .timeline');
         
         //reset animation
@@ -288,9 +288,9 @@ function _updateShoutDisplayableData(shoutData, changes) {
 
         //progress bar
         void aTimeline.offsetWidth;
-        let position = shoutData['playerPosition'] + (state ? calculateSecondsElapsed(shoutData['date']) : 0);
+        let position = shoutData['playerPositionMS'] + (state ? calculateMillisecondsElapsed(shoutData['date']) : 0);
         aTimeline.style.animationDuration = duration + 's';
-        aTimeline.style.animationDelay = -position + 's';
+        aTimeline.style.animationDelay = -position + 'ms';
         if (!state) aTimeline.style.animationPlayState = 'paused';
         aTimeline.classList.add('animTimeline');      
     }

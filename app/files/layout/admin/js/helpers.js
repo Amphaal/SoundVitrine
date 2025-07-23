@@ -178,18 +178,18 @@ function compareDateFromNomHumanized(strISO8601, dateNow) {
  * @param {string} dateFrom should be UTC+0 ISO string representation of when the shout was done at last
  * @returns 
  */
-function calculateSecondsElapsed(dateFrom) {
+function calculateMillisecondsElapsed(dateFrom) {
     const dateNow = new moment();
     const dateThen = moment(dateFrom);
     const mDiff = dateNow.diff(dateThen);
 
-    const diffSecs = moment.duration(mDiff).asSeconds();
+    const diffMSecs = moment.duration(mDiff).asMilliseconds();
 
-    if (diffSecs < 0) {
+    if (diffMSecs < 0) {
         console.warn("Shout update could never happen in the future ! Please check that the date provided by shout is UTC+0 compliant (no local timezoned)");
     }
 
-    return diffSecs;
+    return diffMSecs;
 }
 
 function getRootElementFontSize() {
