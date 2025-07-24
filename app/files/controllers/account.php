@@ -76,12 +76,12 @@ function home()
     login($login_result);
 
     //prepare
-    $iul = isUserLogged();
     $mylib_loc = getLocation("MyLibrary");
     $is_not_my_lib = true;
     $dd_folders = [];
 
     //if user is logged...
+    $iul = isUserLogged();
     if ($iul) {
         $is_not_my_lib = (getLocation("ThisLibrary") != $mylib_loc);
 
@@ -94,9 +94,8 @@ function home()
         }
     }
 
-    //title
-    $title = $iul ? "e_log_manage" : "e_log_home";
-    setTitle(__($title));
+    // title
+    setTitle(__($iul ? "e_log_manage" : "e_log_home"));
 
     injectAndDisplayIntoAdminLayout("layout/admin/components/home.php", get_defined_vars());
 }

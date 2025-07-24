@@ -112,9 +112,6 @@ function init_app()
 
                 case 'uploadMusicLibrary':
                 default: {
-                    //
-                    setTitle(__("title_uploadMusicLibrary"));
-
                     // if user has no library
                     routerMiddleware_UploadMusicLibrary($qs_user, $qs_action == 'uploadMusicLibrary');
 

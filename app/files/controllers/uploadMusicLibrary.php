@@ -84,6 +84,7 @@ function routerMiddleware_UploadMusicLibrary($qs_user, $wantsExplicitAccess)
     // redirect to upload UI if no library for the user OR wanting explicitely this UI
     $expectedLibrary = getInternalUserFolder($qs_user) . constant("MUSIC_LIB_PROFILE_FILE_NAME");
     if (!file_exists($expectedLibrary) || $wantsExplicitAccess) {
+        setTitle(__("title_uploadMusicLibrary"));
         return injectAndDisplayIntoAdminLayout("layout/admin/components/upload.php", get_defined_vars());
     }
 }
