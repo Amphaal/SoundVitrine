@@ -52,9 +52,11 @@ function sendSSEEvent_GENERIC(string $topic, mixed $data): string|false
 //
 function getSSESubscriberJWT(): string
 {
-    // including date + random to add a bit of data to sign (empty map_array would be boring right ?)
-    return (new JWT(getenv("MERCURE_SUBSCRIBER_JWT_KEY"), 'HS256'))->encode([
+    $token = (new JWT(getenv("MERCURE_SUBSCRIBER_JWT_KEY"), 'HS256'))->encode([
         "d" => date("c"),
         "r" => rand(),
     ]);
+
+    // including date + random to add a bit of data to sign (empty map_array would be boring right ?)
+    return $token;
 }

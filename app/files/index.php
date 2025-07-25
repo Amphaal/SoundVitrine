@@ -57,6 +57,11 @@ function init_app()
             exit;
         }
 
+        case 'sseAuthRefresh': {
+            echo getSSESubscriberJWT();
+            exit;
+        }
+
         case 'hb': {
             $qs_action = array_shift($qs); // 2nd part of URL
             return routerInterceptor_heartbeat($qs_action);

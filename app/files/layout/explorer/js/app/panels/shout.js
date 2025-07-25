@@ -1,30 +1,22 @@
 /** @type {EventSource} */
 var shoutES = null;
 
-function getSSEShoutUrl() {
+function getSSEShoutUrl(jwt) {
     const url = new URL(window.location.href);
     url.pathname = ssePathEndpoint;
     url.searchParams.append("topic", sseShoutTopic);
-    url.searchParams.append('authorization', sseJwt);
+    url.searchParams.append('authorization', jwt);
     return url;
 }
 
-//
-function setupLiveUpdatesForShouts() {
-    //
-    shoutES = new EventSource(getSSEShoutUrl());
-
-    /**
-     * 
-     * @param {MessageEvent} event 
-     */
-    const onMessage = (event) => {
-        const shout = JSON.parse(event.data);
-        onReceivedShout(shout);
-    };
-
-    //
-    shoutES.addEventListener("message", onMessage);
+/**
+ * 
+ * @param {string | null} jwt 
+ */
+async function setupLiveUpdatesForShouts(jwt) {
+    if (jwt == null) {
+        jwt = await (await fetch("/sseAuthRefresh")).text();
+    }
 
     //
     fetch(clientURLShout).then(async e => {
@@ -37,6 +29,31 @@ function setupLiveUpdatesForShouts() {
         const shout = await e.json();
         onReceivedShout(shout);
     });
+
+    //
+    shoutES = new EventSource(getSSEShoutUrl(jwt));
+
+    /**
+     * 
+     * @param {MessageEvent} event 
+     */
+    const onMessage = (event) => {
+        const shout = JSON.parse(event.data);
+        onReceivedShout(shout);
+    };
+
+    /** */
+    const onError = () => {
+        // close current
+        shoutES.close();
+
+        // retry
+        setupLiveUpdatesForShouts(null);
+    }
+
+    //
+    shoutES.onmessage = onMessage;
+    shoutES.onerror = onError;
 }
 
 //

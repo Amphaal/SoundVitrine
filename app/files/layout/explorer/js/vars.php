@@ -5,7 +5,7 @@
         var clientURLShout = <?=json_encode($clientURLShout) ?>;
         
         const ssePathEndpoint = <?=json_encode(constant("MERCURE_PATH")) ?>;
-        const sseJwt = <?=json_encode(getSSESubscriberJWT()) ?>;
+        const initialSSEJwt = <?=json_encode(getSSESubscriberJWT()) ?>;
         const sseShoutTopic = <?=json_encode(getSSETopic_shout($qs_user)) ?>;
 
         var initialRLoaderUrl = <?=json_encode($initialRLoaderUrl) ?>;
