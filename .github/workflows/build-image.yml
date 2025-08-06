@@ -10,7 +10,7 @@ on:
   workflow_dispatch: # Allows manual triggering
 
 permissions:
-  contents: read
+  contents: write # needed to push a release
   packages: write # Needed to push to GHCR
 
 jobs:
@@ -55,3 +55,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.data-from-composer.outputs.appVersion }}
+
