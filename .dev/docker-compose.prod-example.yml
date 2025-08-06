@@ -1,0 +1,29 @@
+name: SoundVitrine
+
+services:
+  soundvitrine:
+    restart: on-failure:1
+    image: ghcr.io/amphaal/soundvitrine:${SOUNDVITRINE_VERSION:-main}
+    volumes:
+     - soundvitrine-state:/app/_state:rw
+    environment:
+      MERCURE_PUBLISHER_JWT_KEY: "${MERCURE_PUBLISHER_JWT_KEY}"   # required, please configure in `.env` file
+      MERCURE_SUBSCRIBER_JWT_KEY: "${MERCURE_SUBSCRIBER_JWT_KEY}" # required, please configure in `.env` file
+    networks:
+      - traefik
+    labels:
+      ### 
+      ### We assume here you use Traefik as your local proxy; please configure accordingly.
+      ###
+      - traefik.enable=true
+      - traefik.http.routers.soundvitrine.rule=Host(`${MY_SOUNDVITRINE_DOMAIN}`) # required, please configure in `.env` file
+      # Uncomment below if a specific HTTPS certificate resolver is needed
+      # - traefik.http.routers.soundvitrine.tls.certresolver=letsencrypt
+      - traefik.http.routers.soundvitrine.entrypoints=web
+      - traefik.http.services.soundvitrine.loadbalancer.server.port=80 # 80 is the default exposed port
+volumes:
+  soundvitrine-state:
+networks:
+  traefik:
+    name: my-local-traefik-network
+    external: true

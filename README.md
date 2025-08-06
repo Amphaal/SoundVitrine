@@ -9,7 +9,7 @@
 SoundVitrine is a web-app that hosts your local music library metadata. **It's like a reverse Spotify** !
 
 - Using [SoundBuddy](https://github.com/Amphaal/SoundBuddy) - its app counterpart - you can securely publish your 10k+ tunes library online in a matter of milliseconds⚡
-- Thanks to [SSE](https://en.wikipedia.org/wiki/Server-sent_events), you automatically broadcast to visitors what you are listening to in live on iTunes 🤯
+- Thanks to HTTP's [SSE](https://en.wikipedia.org/wiki/Server-sent_events) enabled by [Mercure](https://mercure.rocks/), you automatically broadcast to visitors what you are listening to in live on iTunes 🤯
 
 ## About
 This personal project is quite old, and started as an idea back in 2018.
@@ -39,19 +39,33 @@ As I always wanted to tell about my discoveries to my friends when I was outside
 > [!NOTE]
 > The legacy technologies / techniques that are used on this Proof-of-Concept project are not par with industry standards - refactorization efforts are welcome https://github.com/Amphaal/SoundVitrine/issues/14 !
 
-- PHP, w/ Compose for dev dependencies (linter)
-- Vanilla Javascript (<ES5)
-- PHPFranken w/ Mercure for a self-contained Docker app with SEE events handling
+- Plain old HTML5 + CSS3 animations (w/ [animate.css](https://animate.style/) & [FontAwesome](https://fontawesome.com/))
+- PHP, leveraging Compose for external JWT implementation & code-smell detection
+- Vanilla Javascript, alongside 
+    - [Highcharts](https://www.highcharts.com/) for graphs
+    - [Mixitup](https://github.com/patrickkunka/mixitup) for DOM animations
+    - [Hammer.js](https://hammerjs.github.io/) for gesture handling
+    - [SortTable](https://github.com/stuartlangridge/sorttable), for table sorting obviously
+    - [Moment.js](https://momentjs.com/) for time
+- [PHPFranken](https://frankenphp.dev/) w/ Mercure for a self-contained Docker app with SEE events handling
 - MusicBrainz API (https://musicbrainz.org/doc/MusicBrainz_API)
 
 ## Using SoundVitrine
 > [!TIP]
-> Using [Visual Studio Code](https://code.visualstudio.com/) is strongly advised, and we assume you are using it in this documentation. We also assume you are familiar with `git` and have cloned the repo on your machine.
+> - Using [Visual Studio Code](https://code.visualstudio.com/) is strongly advised, and we assume you are using it in this documentation. Some extensions will also be automatically recommended to you to ease debuging and coding.
+> - We also assume you are familiar with `git` and have cloned the repo on your machine. 
+> - Being familiar with `docker` and `docker-compose.yml` file format is also highly recommanded if you wish to deploy the app yourself.
 
-### Debugging
-🚧
-### Deploying
-🚧
+
+### Debugging / Using locally
+- In the `Execute and Debug` VSCode's left panel, please run `1) Run - Docker Compose` configuration.
+    - It will require a docker image build, so it might take a few seconds the first time you run it; please wait !
+    - In almost all cases, `1a) Bind XDebug` configuration should not be ran independently since it will be automatically launched for breakpoints to work.
+- Once you notice `server running` in `1) Run - Docker Compose`'s terminal log, you can run `2) Open SoundVitrine locally` to launch the app.
+
+### Hosting / Deploying
+Since the app is self-contained, hosting is quite simple. Check https://github.com/Amphaal/SoundVitrine/tree/main/.dev/docker-compose.prod-example.yml for a non-debug configuration example. We strongly suggest you to change environments variables defaults by populating an `.env` files with required parameters.
+
 ## Screenshots
 <div align="center">
   <b>Logged in<b/>

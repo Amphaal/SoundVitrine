@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch App",
+            "name": "2) Open SoundVitrine locally",
             "type": "chrome",
             "request": "launch",
             "url": "http://127.0.0.1",
@@ -18,7 +18,7 @@
         //
         //
         {
-            "name": "XDebug",
+            "name": "1a) Bind XDebug",
             "type": "php",
             "request": "launch",
             "port": 9003,
@@ -32,7 +32,7 @@
             },
         },
         {
-            "name": "Docker Compose",
+            "name": "1) Run - Docker Compose",
             "type": "node-terminal",
             "request": "launch",
             "command": "docker compose up --watch --build",
@@ -40,7 +40,7 @@
             "serverReadyAction": {
                 "action": "startDebugging",
                 "pattern": "server running",  
-                "name": "XDebug",
+                "name": "1a) Bind XDebug",
                 "killOnServerStop": true
             },
             "presentation": {
@@ -49,8 +49,8 @@
                 "order": 1
             },
             "cascadeTerminateToConfigurations": [
-                "XDebug",
-                "Launch App"
+                "1a) Bind XDebug",
+                "2) Open SoundVitrine locally"
             ]
         },
     ],

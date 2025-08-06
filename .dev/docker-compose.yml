@@ -12,9 +12,9 @@ services:
     volumes:
      - ../_state:/app/_state:rw
     environment:
-      MERCURE_PUBLISHER_JWT_KEY: "${MERCURE_PUBLISHER_JWT_KEY:-!ChangeThisMercureHubJWTSecretKey!}"
-      MERCURE_SUBSCRIBER_JWT_KEY: "${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeThisMercureHubJWTSecretKey!}"
-      ALLOW_SSE_TESTING: "1"
+      MERCURE_PUBLISHER_JWT_KEY: "${MERCURE_PUBLISHER_JWT_KEY:-!ChangeThisMercureHubJWTSecretKey!}"   # required
+      MERCURE_SUBSCRIBER_JWT_KEY: "${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeThisMercureHubJWTSecretKey!}" # required
+      ALLOW_SSE_TESTING: "1" # dev-only
     develop:
       watch:
         - action: sync+restart
