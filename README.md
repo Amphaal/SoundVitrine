@@ -9,10 +9,10 @@
 ![GitHub Release](https://img.shields.io/github/v/release/amphaal/SoundVitrine)
 
 
-SoundVitrine is a web-app that hosts your local music library metadata. **It's like a reverse Spotify** !
+SoundVitrine is a web-app that hosts your local music library metadata. **It's kinda like a reverse Spotify** !
 
 - Using [SoundBuddy](https://github.com/Amphaal/SoundBuddy) - its app counterpart - you can securely publish your 10k+ tunes library online in a matter of milliseconds⚡
-- Thanks to HTTP's [SSE](https://en.wikipedia.org/wiki/Server-sent_events) enabled by [Mercure](https://mercure.rocks/), you automatically broadcast to visitors what you are listening to in live on iTunes 🤯
+- Thanks to HTTP's [SSE](https://en.wikipedia.org/wiki/Server-sent_events) enabled by [Mercure](https://mercure.rocks/), watch in real-time what the vitrine's curator is listening to, live from iTunes 🤯
 
 ## About
 This personal project is quite old, and started as an idea back in 2018.
@@ -58,7 +58,6 @@ As I always wanted to tell about my discoveries to my friends when I was outside
 > - Using [Visual Studio Code](https://code.visualstudio.com/) is strongly advised, and we assume you are using it in this documentation. Some extensions will also be automatically recommended to you to ease debuging and coding.
 > - We also assume you are familiar with `git` and have cloned the repo on your machine. 
 > - Being familiar with `docker` and `docker-compose.yml` file format is also highly recommanded if you wish to deploy the app yourself.
-
 
 ### Debugging / Using locally
 - In the `Execute and Debug` VSCode's left panel, please run `1) Run - Docker Compose` configuration.
