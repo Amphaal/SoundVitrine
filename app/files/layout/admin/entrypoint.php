@@ -7,7 +7,7 @@
         <?php require "layout/admin/compiled.js.php" ?>
     </head>
     <body>
-        <div id="mainFrame">
+        <div id="mainFrame" style="margin: 0 1rem;">
             <?php require $inside_part; ?>
         </div>
         <?php require "layout/_any/footer.php" ?>

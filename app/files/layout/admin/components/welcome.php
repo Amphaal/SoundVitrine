@@ -25,7 +25,7 @@
         box-shadow: 0px 0px 20px 0px #00000036;
     }    
 </style>
-<div style="display:flex; align-items:center; flex-direction: column; width: 100wv">
+<div style="display:flex; align-items:center; flex-direction: column; margin: 2rem">
     <img src="/public/images/logo.png" width="60%"/>
     <h1 style="margin: 0; text-align: center"><?=__("thisis") ?></h1>
     <div style="font-size: .75em; color: #3b3b3b; text-align: center">
