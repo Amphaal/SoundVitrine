@@ -1,7 +1,7 @@
 <?php
 
 $app_description = __("app_descr");
-$app_icon_href = "/public/images/ico.png";
+$app_og_background_href = "/public/favicon/web-app-manifest-512x512.png";
 $app_title = getTitle();
 
 function getCurrentCanonicalUrl(): string
@@ -33,7 +33,10 @@ function getCurrentCanonicalUrl(): string
 
 <meta charset="UTF-8">
 <title><?=$app_title ?></title>
-<link rel="icon" type="image/png" href="<?=$app_icon_href ?>" />
+<link rel="icon" type="image/png" href="/public/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="shortcut icon" href="/public/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png" />
+<link rel="manifest" href="/public/favicon/site.webmanifest" />
 <meta name="description" content="<?=$app_description ?>">
 <meta name="theme-color" content="#efefef">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
