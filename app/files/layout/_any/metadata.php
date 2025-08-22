@@ -4,15 +4,16 @@ $app_description = __("app_descr");
 $app_icon_href = "/public/images/ico.png";
 $app_title = getTitle();
 
-function getCurrentUrl(): string
+function getCurrentCanonicalUrl(): string
 {
     // Detect scheme (with proxy headers if behind Traefik/Nginx/…)
     if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
         $scheme = $_SERVER['HTTP_X_FORWARDED_PROTO'];
-    } elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-        $scheme = 'https';
-    } else {
+    } elseif (getenv('ENFORCE_CANONICAL_HTTP_SCHEME') == '1') {
         $scheme = 'http';
+    } else {
+        // let's assume HTTPS as canonical scheme by default
+        $scheme = 'https';
     }
 
     // Host (prefer X-Forwarded-Host if provided by Traefik)
@@ -40,7 +41,7 @@ function getCurrentUrl(): string
 <meta name="description" content="<?=$app_description ?>">
 <meta name="theme-color" content="#efefef">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta property="og:url" content="<?= htmlspecialchars(getCurrentUrl()) ?>">
+<meta property="og:url" content="<?= htmlspecialchars(getCurrentCanonicalUrl()) ?>">
 <meta property="og:title" content="<?=$app_title ?>">
 <meta property="og:description" content="<?=$app_description ?>">
 <meta property="og:image" content="<?=$app_icon_href ?>">

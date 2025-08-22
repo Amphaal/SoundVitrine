@@ -15,6 +15,7 @@ services:
       MERCURE_PUBLISHER_JWT_KEY: "${MERCURE_PUBLISHER_JWT_KEY:-!ChangeThisMercureHubJWTSecretKey!}"   # required
       MERCURE_SUBSCRIBER_JWT_KEY: "${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeThisMercureHubJWTSecretKey!}" # required
       ALLOW_SSE_TESTING: "1" # dev-only
+      ENFORCE_CANONICAL_HTTP_SCHEME: "1"
     develop:
       watch:
         - action: sync+restart

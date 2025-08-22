@@ -17,9 +17,10 @@ services:
       ###
       - traefik.enable=true
       - traefik.http.routers.soundvitrine.rule=Host(`${MY_SOUNDVITRINE_DOMAIN}`) # required, please configure in `.env` file
-      # Uncomment below if a specific HTTPS certificate resolver is needed
+      ## Uncomment below if a specific HTTPS certificate resolver is needed. Won't be needed if using something like Cloudflare
       # - traefik.http.routers.soundvitrine.tls.certresolver=letsencrypt
-      - traefik.http.routers.soundvitrine.entrypoints=web
+      ## make the app only accessible through HTTPS (we do not recommend exposing through "web" entrypoint / HTTP)
+      - traefik.http.routers.soundvitrine.entrypoints=websecure 
       - traefik.http.services.soundvitrine.loadbalancer.server.port=80 # 80 is the default exposed port
 volumes:
   soundvitrine-state:
