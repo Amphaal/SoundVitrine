@@ -23,14 +23,10 @@ function getCurrentCanonicalUrl(): string
         $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
     }
 
-    // Port (optional, only if non-standard)
-    $port = $_SERVER['SERVER_PORT'] ?? null;
-    $showPort = $port && !in_array([$scheme, $port], [['http', '80'], ['https', '443']]);
-
     // Path + query
     $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-    return $scheme . '://' . $host . ($showPort ? ':' . $port : '') . $uri;
+    return $scheme . '://' . $host . $uri;
 }
 
 ?>
