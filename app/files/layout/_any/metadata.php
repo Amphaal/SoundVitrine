@@ -1,10 +1,11 @@
 <?php
 
 $app_description = __("app_descr");
-$app_og_background_href = "/public/favicon/web-app-manifest-512x512.png";
+$app_og_background_href = getCanonicalHost() . "/public/images/og_image.png";
 $app_title = getTitle();
 
-function getCurrentCanonicalUrl(): string
+
+function getCanonicalHost(): string
 {
     // Detect scheme (with proxy headers if behind Traefik/Nginx/…)
     if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
@@ -23,10 +24,17 @@ function getCurrentCanonicalUrl(): string
         $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
     }
 
+    //
+    return $scheme . '://' . $host;
+}
+
+function getCurrentCanonicalUrl(): string
+{
     // Path + query
     $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-    return $scheme . '://' . $host . $uri;
+    //
+    return getCanonicalHost() . $uri;
 }
 
 ?>
