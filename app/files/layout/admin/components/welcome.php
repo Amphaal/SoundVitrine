@@ -27,7 +27,7 @@
 </style>
 <div style="display:flex; align-items:center; flex-direction: column; width: 100wv">
     <img src="/public/images/logo.png" width="60%"/>
-    <h1 style="margin-bottom: 0; text-align: center"><?=__("thisis") ?></h1>
+    <h1 style="margin: 0; text-align: center"><?=__("thisis") ?></h1>
     <div style="font-size: .75em; color: #3b3b3b; text-align: center">
         <?=__("project_shorthand_descr", '<img src="/public/images/itunes.png" width="24px" style="margin: 0 .2em; vertical-align: bottom;" />') ?>
     </div>
@@ -51,7 +51,7 @@
             </a>
         <?php } ?>
     </div>
-    <div style="margin-top: 1em; display: flex; justify-content: center;">
+    <div style="margin-top: .5em; display: flex; justify-content: center;">
         <a href="/account">
             <div 
                 class="manage_button" 

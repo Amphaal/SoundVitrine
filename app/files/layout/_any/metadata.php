@@ -43,12 +43,12 @@ function getCurrentCanonicalUrl(): string
 <meta property="og:url" content="<?= htmlspecialchars(getCurrentCanonicalUrl()) ?>">
 <meta property="og:title" content="<?=$app_title ?>">
 <meta property="og:description" content="<?=$app_description ?>">
-<meta property="og:image" content="<?=$app_icon_href ?>">
+<meta property="og:image" content="<?=$app_og_background_href ?>">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="256">
 <meta property="og:image:height" content="256">
 <meta property="og:type" content="website">
-<meta name="twitter:image" content="<?=$app_icon_href ?>">
+<meta name="twitter:image" content="<?=$app_og_background_href ?>">
 <meta name="twitter:description" content="<?=$app_description ?>">
 <meta name="twitter:title" content="<?=$app_title ?>">
 <meta name="twitter:card" content="photo">
